@@ -8,6 +8,6 @@ import com.daycare.app.backend.models.User;
 public interface BabyService {
 	void save(Baby baby);
 	Optional<Baby> findById(Long id);
-//	Optional<Baby> findByIdANDIsSicked(Long id, boolean isSicked);
     Iterable<Baby> findByUser(User user);
+	void deleteById(Long id);
 }

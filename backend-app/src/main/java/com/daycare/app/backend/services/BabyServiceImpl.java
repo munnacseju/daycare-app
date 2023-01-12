@@ -1,4 +1,4 @@
-package com.daycare.app.backend.security;
+package com.daycare.app.backend.services;
 
 import java.util.Optional;
 
@@ -8,8 +8,6 @@ import org.springframework.stereotype.Service;
 import com.daycare.app.backend.models.Baby;
 import com.daycare.app.backend.models.User;
 import com.daycare.app.backend.repositories.BabyRepository;
-import com.daycare.app.backend.repositories.UserRepository;
-import com.daycare.app.backend.services.BabyService;
 
 @Service
 public class BabyServiceImpl implements BabyService {
@@ -26,15 +24,12 @@ public class BabyServiceImpl implements BabyService {
 	public Optional<Baby> findById(Long id) {
 		return babyRepository.findById(id);
 	}
-
-//	@Override
-//	public Optional<Baby> findByIdANDIsSicked(Long id, boolean isSicked) {
-//		return babyRepository.findByIdANDIsSicked(id, isSicked);
-//	}
-
 	@Override
 	public Iterable<Baby> findByUser(User user) {
 		return babyRepository.findByUser(user);
 	}
-
+	@Override
+	public void deleteById(Long id) {
+		babyRepository.deleteById(id);
+	}
 }

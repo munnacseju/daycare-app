@@ -12,56 +12,58 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.daycare.app.backend.models.Baby;
+import com.daycare.app.backend.models.Review;
 import com.daycare.app.backend.models.User;
-import com.daycare.app.backend.services.BabyService;
+import com.daycare.app.backend.services.ReviewService;
 import com.daycare.app.backend.services.UserService;
 
 @RestController
 @RequestMapping("/api")
-public class BabyController {
-    public static final String ADD_BABY = "/addBaby";
-    public static final String FIND_BABY_BY_ID = "/findBaby/{id}";
-    public static final String FIND_ALL_BABY_BY_USER = "/findAllBaby";
-    public static final String DELETE_BABY = "/deleteBaby/{id}";
+public class ReviewController {
+    public static final String ADD_REVIEW = "/addReview";
+    public static final String FIND_REVIEW_BY_ID = "/findReview/{id}";
+    public static final String FIND_ALL_REVIEW_BY_USER = "/findAllReview";
+    public static final String DELETE_REVIEW = "/deleteReview/{id}";
 
     @Autowired
     private UserService userService;
     
     @Autowired
-    private BabyService babyService;
+    private ReviewService reviewService;
     
-    @RequestMapping(value = ADD_BABY, method = RequestMethod.POST)
+    @RequestMapping(value = ADD_REVIEW, method = RequestMethod.POST)
     @ResponseBody
-    public HashMap<String, Object> addBaby(@RequestBody Baby baby) {
+    public HashMap<String, Object> addReview(@RequestBody Review review) {
         HashMap<String, Object> response = new HashMap<>();
+        System.out.println("Care giver id: "+review.getCaregiverId());
+
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         Optional<User> userOptional = userService.findByEmail(email);
-        User user = userOptional.get();
-        baby.setUser(user);
-        babyService.save(baby);
-        response.put("baby", baby);
+        User user = userOptional.get();         
+        review.setUser(user);
+        reviewService.save(review);
+        response.put("review", review);
         return response;
     }
 
-    @RequestMapping(value = FIND_ALL_BABY_BY_USER, method = RequestMethod.GET)
+    @RequestMapping(value = FIND_ALL_REVIEW_BY_USER, method = RequestMethod.GET)
     @ResponseBody
     public HashMap<String, Object> findBabiesByUser() {
         HashMap<String, Object> response = new HashMap<>();
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         Optional<User> userOptional = userService.findByEmail(email);
         User user = userOptional.get();
-        response.put("babies", babyService.findByUser(user));
-        // babyService.findByUser(user);
+        response.put("babies", reviewService.findByUser(user));
+        // reviewService.findByUser(user);
         return response;
     }
 
-    @RequestMapping(value = DELETE_BABY, method = RequestMethod.POST)
+    @RequestMapping(value = DELETE_REVIEW, method = RequestMethod.POST)
     @ResponseBody
-    public HashMap<String, Object> deleteBaby(@PathVariable Long id) {
+    public HashMap<String, Object> deleteReview(@PathVariable Long id) {
         HashMap<String, Object> response = new HashMap<>();
-        babyService.deleteById(id);
-        response.put("baby deleted", id);
+        reviewService.deleteById(id);
+        response.put("review deleted", id);
         return response;
     }
 }

@@ -12,56 +12,55 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.daycare.app.backend.models.Baby;
+import com.daycare.app.backend.models.Caregiver;
 import com.daycare.app.backend.models.User;
-import com.daycare.app.backend.services.BabyService;
+import com.daycare.app.backend.services.CaregiverService;
 import com.daycare.app.backend.services.UserService;
 
 @RestController
 @RequestMapping("/api")
-public class BabyController {
-    public static final String ADD_BABY = "/addBaby";
-    public static final String FIND_BABY_BY_ID = "/findBaby/{id}";
-    public static final String FIND_ALL_BABY_BY_USER = "/findAllBaby";
-    public static final String DELETE_BABY = "/deleteBaby/{id}";
+public class CaregiverController {
+    public static final String ADD_CAREGIVER = "/addCaregiver";
+    public static final String FIND_ALL_CAREGIVER = "/findAllCaregiver";
+    public static final String DELETE_CAREGIVER = "/deleteCaregiver/{id}";
 
     @Autowired
     private UserService userService;
     
     @Autowired
-    private BabyService babyService;
+    private CaregiverService caregiverService;
     
-    @RequestMapping(value = ADD_BABY, method = RequestMethod.POST)
+    @RequestMapping(value = ADD_CAREGIVER, method = RequestMethod.POST)
     @ResponseBody
-    public HashMap<String, Object> addBaby(@RequestBody Baby baby) {
+    public HashMap<String, Object> addCaregiver(@RequestBody Caregiver caregiver) {
         HashMap<String, Object> response = new HashMap<>();
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         Optional<User> userOptional = userService.findByEmail(email);
-        User user = userOptional.get();
-        baby.setUser(user);
-        babyService.save(baby);
-        response.put("baby", baby);
+        User user = userOptional.get();         
+        caregiver.setUser(user);
+        caregiverService.save(caregiver);
+        response.put("caregiver", caregiver);
         return response;
     }
 
-    @RequestMapping(value = FIND_ALL_BABY_BY_USER, method = RequestMethod.GET)
+    @RequestMapping(value = FIND_ALL_CAREGIVER, method = RequestMethod.GET)
     @ResponseBody
     public HashMap<String, Object> findBabiesByUser() {
         HashMap<String, Object> response = new HashMap<>();
-        String email = SecurityContextHolder.getContext().getAuthentication().getName();
-        Optional<User> userOptional = userService.findByEmail(email);
-        User user = userOptional.get();
-        response.put("babies", babyService.findByUser(user));
-        // babyService.findByUser(user);
+        // String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        // Optional<User> userOptional = userService.findByEmail(email);
+        // User user = userOptional.get();
+        response.put("caregivers", caregiverService.findAll());
+        // caregiverService.findByUser(user);
         return response;
     }
 
-    @RequestMapping(value = DELETE_BABY, method = RequestMethod.POST)
+    @RequestMapping(value = DELETE_CAREGIVER, method = RequestMethod.POST)
     @ResponseBody
-    public HashMap<String, Object> deleteBaby(@PathVariable Long id) {
+    public HashMap<String, Object> deleteCaregiver(@PathVariable Long id) {
         HashMap<String, Object> response = new HashMap<>();
-        babyService.deleteById(id);
-        response.put("baby deleted", id);
+        caregiverService.deleteById(id);
+        response.put("caregiver deleted", id);
         return response;
     }
 }
