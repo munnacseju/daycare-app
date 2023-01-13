@@ -1,38 +1,54 @@
 package com.example.daycareapp.models;
 
+import com.example.daycareapp.User;
+
 public class Caregiver {
+    private Long id;
 
-    private String name;
-    private String location;
-    private String imagefileText;
-
-    public Caregiver(String name, String location, String imagefileText) {
-        this.name = name;
-        this.location = location;;
-        this.imagefileText = imagefileText;
+    public Caregiver() {
     }
 
-    public String getName() {
-        return name;
+    public Caregiver(Long id, User user, String caregiverMotherName, String address) {
+        this.id = id;
+        this.user = user;
+        this.caregiverMotherName = caregiverMotherName;
+        this.address = address;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public Long getId() {
+        return id;
     }
 
-    public String getLocation() {
-        return location;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public void setLocation(String location) {
-        this.location = location;
+    public User getUser() {
+        return user;
     }
 
-    public String getImagefileText() {
-        return imagefileText;
+    public void setUser(User user) {
+        this.user = user;
     }
 
-    public void setImagefileText(String imagefileText) {
-        this.imagefileText = imagefileText;
+    public String getCaregiverMotherName() {
+        return caregiverMotherName;
     }
+
+    public void setCaregiverMotherName(String caregiverMotherName) {
+        this.caregiverMotherName = caregiverMotherName;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    private User user;
+    private String caregiverMotherName;
+    private String address;
+//    private String imagefileText;
 }

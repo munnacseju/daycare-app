@@ -1,5 +1,9 @@
 package com.example.daycareapp;
 
+import com.example.daycareapp.models.Caregiver;
+import com.example.daycareapp.network.response.AllCaregiverResponse;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import okhttp3.ResponseBody;
@@ -20,4 +24,7 @@ public interface API {
     Call<ResponseBody> checkUser (
             @Body User user
     );
+
+    @GET("findAllCaregiver")
+    Call<AllCaregiverResponse> findAllCaregiver();
 }

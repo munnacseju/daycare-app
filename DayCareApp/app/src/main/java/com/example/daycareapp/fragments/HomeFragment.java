@@ -20,15 +20,20 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.daycareapp.R;
-import com.example.daycareapp.activities.DateActivity;
+import com.example.daycareapp.RetrofitClient;
 import com.example.daycareapp.activities.FeeActivity;
 import com.example.daycareapp.adapters.CaregiverListAdapter;
 import com.example.daycareapp.listeners.CaregiverClickListener;
 import com.example.daycareapp.models.Caregiver;
+import com.example.daycareapp.network.response.AllCaregiverResponse;
 import com.example.daycareapp.util.SharedRefs;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class HomeFragment extends Fragment {
     RecyclerView recyclerView;
@@ -51,14 +56,16 @@ public class HomeFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        caregiverList = new ArrayList<>();
+
+        getCareGiverList();
 
         dialog = new Dialog(getContext());
-        caregiverList = new ArrayList<>();
-        caregiverList.add(new Caregiver("Rahima Khatun", "Mirpur", "img1"));
-        caregiverList.add(new Caregiver("Hafsa Banu", "Savar", "img2"));
-        caregiverList.add(new Caregiver("Mahmuda Akter", "Dhanmondi", "img3"));
-        caregiverList.add(new Caregiver("Fariha Akter", "New Market", "img4"));
-        caregiverList.add(new Caregiver("Kulsum Akter", "New Market", "img2"));
+//        caregiverList.add(new Caregiver("Rahima Khatun", "Mirpur", "img1"));
+//        caregiverList.add(new Caregiver("Hafsa Banu", "Savar", "img2"));
+//        caregiverList.add(new Caregiver("Mahmuda Akter", "Dhanmondi", "img3"));
+//        caregiverList.add(new Caregiver("Fariha Akter", "New Market", "img4"));
+//        caregiverList.add(new Caregiver("Kulsum Akter", "New Market", "img2"));
     }
 
     @Override
@@ -78,25 +85,25 @@ public class HomeFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        updateProjectsRecycler();
+//        updateProjectsRecycler();
     }
 
     private final CaregiverClickListener caregiverClickListener = new CaregiverClickListener() {
         @Override
         public void onClick(Caregiver caregiver) {
             Intent intent = new Intent(getContext(), FeeActivity.class);
-            intent.putExtra("name", caregiver.getName());
-            intent.putExtra("location", caregiver.getLocation());
-            intent.putExtra("img", caregiver.getImagefileText());
+            intent.putExtra("name", caregiver.getCaregiverMotherName());
+            intent.putExtra("location", caregiver.getAddress());
+            intent.putExtra("img", "img1");
             startActivity(intent);
 //            getActivity().finish();
-            Toast.makeText(getContext(), "selected: " + caregiver.getName(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "selected: " + caregiver.getCaregiverMotherName(), Toast.LENGTH_SHORT).show();
         }
 
         @Override
         public void onLongClick(Caregiver caregiver, TextView textView) {
-            callForDialog(caregiver.getName());
-            Toast.makeText(getContext(), "long selected: " + caregiver.getName(), Toast.LENGTH_SHORT).show();
+            callForDialog(caregiver.getCaregiverMotherName());
+            Toast.makeText(getContext(), "long selected: " + caregiver.getCaregiverMotherName(), Toast.LENGTH_SHORT).show();
         }
     };
 
@@ -159,6 +166,39 @@ public class HomeFragment extends Fragment {
                     }
                 }, mHour, mMinute, false);
         timePickerDialog.show();
+    }
+
+
+    private void getCareGiverList() {
+//        progressBar.setVisibility(View.VISIBLE);
+        Call<AllCaregiverResponse> call = RetrofitClient
+                .getInstance()
+                .getAPI()
+                .findAllCaregiver();
+
+        call.enqueue(new Callback<AllCaregiverResponse>() {
+            @Override
+            public void onResponse(Call<AllCaregiverResponse> call, Response<AllCaregiverResponse> response) {
+                if (response.isSuccessful() && response.code() == 200) {
+                    String message = response.body().getStatus();
+                    Toast.makeText(getActivity(), "Successfully got data! status: "+message, Toast.LENGTH_LONG).show();
+                    caregiverList = response.body().getCaregivers();
+                    Toast.makeText(getContext(), "list size: " + caregiverList.size(), Toast.LENGTH_SHORT).show();
+
+                    updateProjectsRecycler();
+
+
+                } else {
+//                    progressBar.setVisibility(View.GONE);
+                    Toast.makeText(getContext(), "Some unknown problem occurred!! "+response.code(), Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<AllCaregiverResponse> call, Throwable t) {
+                Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
 }

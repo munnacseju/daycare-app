@@ -96,7 +96,7 @@ public class LoginActivity extends AppCompatActivity {
                 } else if (password == null || password.length() == 0) {
                     Toast.makeText(LoginActivity.this, "Invalid Password", Toast.LENGTH_SHORT).show();
                 } else {
-                    loginWithForm(email, password);
+                    loginUser(email, password);
                 }
 
 
@@ -161,7 +161,6 @@ public class LoginActivity extends AppCompatActivity {
                     startActivity(new Intent(getApplicationContext(), ProtectedActivity.class));
                 } else {
                     Toast.makeText(getApplicationContext(), "Wrong Credentials! Try again!", Toast.LENGTH_LONG).show();
-//                    Toast.makeText(Registration.this, "Some unknown problem occurred!", Toast.LENGTH_LONG).show();
                 }
             }
 

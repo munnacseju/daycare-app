@@ -77,10 +77,10 @@ class CaregiverListViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void setData(Caregiver caregiver) {
-        caregiverNameTv.setText(caregiver.getName());
-        caregiverLocationTv.setText(caregiver.getLocation());
+        caregiverNameTv.setText(caregiver.getCaregiverMotherName());
+        caregiverLocationTv.setText(caregiver.getAddress());
         String PACKAGE_NAME = context.getPackageName();
-        int imageId = context.getResources().getIdentifier(PACKAGE_NAME + ":drawable/" + caregiver.getImagefileText(), null, null);
+        int imageId = context.getResources().getIdentifier(PACKAGE_NAME + ":drawable/" + "img4z", null, null);
         caregiverImageView.setImageBitmap(BitmapFactory.decodeResource(context.getResources(), imageId));
     }
 }

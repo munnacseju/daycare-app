@@ -50,6 +50,7 @@ public class CaregiverController {
         // String email = SecurityContextHolder.getContext().getAuthentication().getName();
         // Optional<User> userOptional = userService.findByEmail(email);
         // User user = userOptional.get();
+        response.put("status", "okay");
         response.put("caregivers", caregiverService.findAll());
         // caregiverService.findByUser(user);
         return response;
