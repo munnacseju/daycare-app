@@ -1,6 +1,7 @@
 package com.example.daycareapp;
 
 import com.example.daycareapp.models.Caregiver;
+import com.example.daycareapp.network.response.AllBabyResponse;
 import com.example.daycareapp.network.response.AllCaregiverResponse;
 
 import java.util.ArrayList;
@@ -27,4 +28,8 @@ public interface API {
 
     @GET("findAllCaregiver")
     Call<AllCaregiverResponse> findAllCaregiver();
+
+    @GET("findAllBaby")
+    Call<AllBabyResponse> findAllBaby();
+
 }
