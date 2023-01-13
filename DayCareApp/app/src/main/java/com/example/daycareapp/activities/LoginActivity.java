@@ -25,6 +25,7 @@ import com.example.daycareapp.RetrofitClient;
 import com.example.daycareapp.User;
 import com.example.daycareapp.network.response.GoogleLoginResponseModel;
 import com.example.daycareapp.network.service.GoogleLoginService;
+import com.example.daycareapp.util.SharedRefs;
 import com.example.daycareapp.viewmodels.AuthViewModel;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -42,11 +43,14 @@ public class LoginActivity extends AppCompatActivity {
     private Button loginButton;
     private ActivityResultLauncher<Intent> googleLoginActivityResultLauncher;
     private AuthViewModel authViewModel;
+    SharedRefs sharedRefs;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        sharedRefs = new SharedRefs(getApplicationContext());
 
         authViewModel = new ViewModelProvider(this).get(AuthViewModel.class);
 
@@ -96,10 +100,8 @@ public class LoginActivity extends AppCompatActivity {
                 } else if (password == null || password.length() == 0) {
                     Toast.makeText(LoginActivity.this, "Invalid Password", Toast.LENGTH_SHORT).show();
                 } else {
-                    loginUser(email, password);
+                    loginWithForm(email, password);
                 }
-
-
             }
         });
     }
@@ -113,6 +115,7 @@ public class LoginActivity extends AppCompatActivity {
             } else {
                 Toast.makeText(LoginActivity.this, "Wrong email/password!", Toast.LENGTH_LONG).show();
             }
+
         });
     }
 
@@ -152,6 +155,10 @@ public class LoginActivity extends AppCompatActivity {
                     AuthToken.authToken = authToken;
                     Toast.makeText(getApplicationContext(), "Successfully Logged in!", Toast.LENGTH_LONG).show();
 
+//                    sharedRefs.putString(SharedRefs.ACCESS_TOKEN, authToken);
+//                    sharedRefs.putString(SharedRefs.USER_NAME, user.getName());
+//                    sharedRefs.putString(SharedRefs.USER_EMAIL, user.getEmail());
+//                    sharedRefs.putString(SharedRefs.USER_ID, String.valueOf(user.getId()));
 
                     SharedPreferences sharedPreferences = getSharedPreferences("data",MODE_PRIVATE);
                     SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -159,6 +166,7 @@ public class LoginActivity extends AppCompatActivity {
                     editor.apply();
                     finish();
                     startActivity(new Intent(getApplicationContext(), ProtectedActivity.class));
+
                 } else {
                     Toast.makeText(getApplicationContext(), "Wrong Credentials! Try again!", Toast.LENGTH_LONG).show();
                 }

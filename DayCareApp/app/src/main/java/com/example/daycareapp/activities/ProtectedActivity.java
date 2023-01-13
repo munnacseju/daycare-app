@@ -14,11 +14,13 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import com.example.daycareapp.AuthToken;
 import com.example.daycareapp.fragments.DemoPagerFragment;
 import com.example.daycareapp.R;
-import com.example.daycareapp.fragments.DemoFragment;
+import com.example.daycareapp.fragments.BabyFragment;
 import com.example.daycareapp.fragments.HomeFragment;
 
+import com.example.daycareapp.fragments.OrderFragment;
 import com.example.daycareapp.util.SharedRefs;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -62,7 +64,7 @@ public class ProtectedActivity extends AppCompatActivity {
 
         userNameTextView.setText(sharedRefs.getString(sharedRefs.USER_NAME, "user name not found"));
         userEmailTextView.setText(sharedRefs.getString(sharedRefs.USER_EMAIL, "user email not found"));
-
+        AuthToken.authToken = sharedRefs.getString(SharedRefs.ACCESS_TOKEN, "");
         drawer = findViewById(R.id.drawer_layout);
         drawerToggle = new ActionBarDrawerToggle(this, drawer, R.string.open, R.string.close);
         drawer.addDrawerListener(drawerToggle);
@@ -86,8 +88,11 @@ public class ProtectedActivity extends AppCompatActivity {
             case R.id.nav_demo_pager: // It is a demo pager (it is here just for learning purpose)
                 fragment = new DemoPagerFragment();
                 break;
-            case R.id.nav_demo:
-                fragment = DemoFragment.newInstance("Demo Fragment");
+            case R.id.nav_baby:
+                fragment = BabyFragment.newInstance("Baby Fragment");
+                break;
+            case R.id.nav_service:
+                fragment = new OrderFragment("Order Fragment");
                 break;
             case R.id.nav_logout:
                 logout();

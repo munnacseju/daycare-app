@@ -3,6 +3,7 @@ package com.example.daycareapp;
 import com.example.daycareapp.models.Caregiver;
 import com.example.daycareapp.network.response.AllBabyResponse;
 import com.example.daycareapp.network.response.AllCaregiverResponse;
+import com.example.daycareapp.network.response.AllOrderResponse;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,5 +32,8 @@ public interface API {
 
     @GET("findAllBaby")
     Call<AllBabyResponse> findAllBaby();
+
+    @GET("findAllOrder")
+    Call<AllOrderResponse> findAllOrder();
 
 }

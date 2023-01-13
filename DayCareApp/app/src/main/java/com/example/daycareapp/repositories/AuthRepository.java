@@ -9,6 +9,7 @@ import android.widget.Toast;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.example.daycareapp.AuthToken;
 import com.example.daycareapp.configs.Config;
 import com.example.daycareapp.network.APIClient;
 import com.example.daycareapp.network.request.LoginRequestModel;
@@ -62,6 +63,7 @@ public class AuthRepository {
                                 sharedRefs.putString(SharedRefs.USER_NAME, user.getName());
                                 sharedRefs.putString(SharedRefs.USER_EMAIL, user.getEmail());
                                 sharedRefs.putString(SharedRefs.USER_ID, String.valueOf(user.getId()));
+                                AuthToken.authToken = accessToken;
                                 isLoginSuccessful.setValue(true);
                             }
                             else {

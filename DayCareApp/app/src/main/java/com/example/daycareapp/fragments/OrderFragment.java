@@ -1,5 +1,7 @@
 package com.example.daycareapp.fragments;
 
+import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
+
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
@@ -12,6 +14,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,14 +25,10 @@ import android.widget.Toast;
 import com.example.daycareapp.R;
 import com.example.daycareapp.RetrofitClient;
 import com.example.daycareapp.activities.FeeActivity;
-import com.example.daycareapp.adapters.BabyListAdapter;
-import com.example.daycareapp.adapters.CaregiverListAdapter;
-import com.example.daycareapp.listeners.BabyClickListener;
-import com.example.daycareapp.listeners.CaregiverClickListener;
-import com.example.daycareapp.models.Baby;
-import com.example.daycareapp.models.Caregiver;
-import com.example.daycareapp.network.response.AllBabyResponse;
-import com.example.daycareapp.network.response.AllCaregiverResponse;
+import com.example.daycareapp.adapters.OrderListAdapter;
+import com.example.daycareapp.listeners.OrderClickListener;
+import com.example.daycareapp.models.Order;
+import com.example.daycareapp.network.response.AllOrderResponse;
 import com.example.daycareapp.util.SharedRefs;
 
 import java.util.ArrayList;
@@ -39,38 +38,38 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class DemoFragment extends Fragment {
+public class OrderFragment extends Fragment {
     private String demoMessage;
     RecyclerView recyclerView;
     LinearLayoutManager layoutManager;
-    BabyListAdapter babyListAdapter;
-    List<Baby> babyList;
+    OrderListAdapter orderListAdapter;
+    List<Order> orderList;
     private SharedRefs sharedRefs;
     private Dialog dialog;
     private Button filterButton;
 
-    public DemoFragment(String demoMessage) {
+    public OrderFragment(String demoMessage) {
         this.demoMessage = demoMessage;
     }
 
-    public static DemoFragment newInstance(String demoMessage) {
-        DemoFragment fragment = new DemoFragment(demoMessage);
+    public static OrderFragment newInstance(String demoMessage) {
+        OrderFragment fragment = new OrderFragment(demoMessage);
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        babyList = new ArrayList<>();
+        orderList = new ArrayList<>();
 
-        getCareGiverList();
+        getOrderList();
 
         dialog = new Dialog(getContext());
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_demo, container, false);
+        return inflater.inflate(R.layout.fragment_order, container, false);
     }
 
     @Override
@@ -86,40 +85,40 @@ public class DemoFragment extends Fragment {
     }
 
 
-    private final BabyClickListener babyClickListener = new BabyClickListener() {
+    private final OrderClickListener orderClickListener = new OrderClickListener() {
         @Override
-        public void onClick(Baby baby) {
+        public void onClick(Order order) {
             Intent intent = new Intent(getContext(), FeeActivity.class);
-            intent.putExtra("name", baby.getBabyName());
-            intent.putExtra("location", baby.getAddress());
+            intent.putExtra("name", order.getId());
+            intent.putExtra("location", order.getId());
             intent.putExtra("img", "img1");
             startActivity(intent);
 //            getActivity().finish();
-            Toast.makeText(getContext(), "selected: " + baby.getBabyName(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "selected: " + order.getId(), Toast.LENGTH_SHORT).show();
         }
 
         @Override
-        public void onLongClick(Baby baby, TextView textView) {
-            callForDialog(baby.getBabyName());
-            Toast.makeText(getContext(), "long selected: " + baby.getBabyName(), Toast.LENGTH_SHORT).show();
+        public void onLongClick(Order order, TextView textView) {
+            callForDialog(order.getId().toString()+" id");
+            Toast.makeText(getContext(), "long selected: " + order.getId()+" ", Toast.LENGTH_SHORT).show();
         }
     };
 
-    private void getCareGiverList() {
+    private void getOrderList() {
 //        progressBar.setVisibility(View.VISIBLE);
-        Call<AllBabyResponse> call = RetrofitClient
+        Call<AllOrderResponse> call = RetrofitClient
                 .getInstance()
                 .getAPI()
-                .findAllBaby();
+                .findAllOrder();
 
-        call.enqueue(new Callback<AllBabyResponse>() {
+        call.enqueue(new Callback<AllOrderResponse>() {
             @Override
-            public void onResponse(Call<AllBabyResponse> call, Response<AllBabyResponse> response) {
+            public void onResponse(Call<AllOrderResponse> call, Response<AllOrderResponse> response) {
                 if (response.isSuccessful() && response.code() == 200) {
                     String message = response.body().getStatus();
-                    Toast.makeText(getActivity(), "Successfully got data! status: "+message, Toast.LENGTH_LONG).show();
-                    babyList = response.body().getBabies();
-                    Toast.makeText(getContext(), "list size: " + babyList.size(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "Successfully got service data! status: "+message, Toast.LENGTH_LONG).show();
+                    orderList = response.body().getOrders();
+                    Toast.makeText(getContext(), "list size: " + orderList.size(), Toast.LENGTH_SHORT).show();
 
                     updateProjectsRecycler();
 
@@ -131,7 +130,9 @@ public class DemoFragment extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<AllBabyResponse> call, Throwable t) {
+            public void onFailure(Call<AllOrderResponse> call, Throwable t) {
+                Log.d(TAG, "*******Fail*******" + t.getMessage());
+
                 Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
@@ -142,8 +143,8 @@ public class DemoFragment extends Fragment {
         layoutManager = new LinearLayoutManager(getView().getContext());
         layoutManager.setOrientation(RecyclerView.VERTICAL);
         recyclerView.setLayoutManager(layoutManager);
-        babyListAdapter = new BabyListAdapter(getContext(), babyList, babyClickListener);
-        recyclerView.setAdapter(babyListAdapter);
+        orderListAdapter = new OrderListAdapter(getContext(), orderList, orderClickListener);
+        recyclerView.setAdapter(orderListAdapter);
     }
 
     private void callForDialog(String dialogStringData){

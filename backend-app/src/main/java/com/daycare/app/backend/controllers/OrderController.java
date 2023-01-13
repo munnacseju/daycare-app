@@ -46,12 +46,13 @@ public class OrderController {
 
     @RequestMapping(value = FIND_ALL_ORDER_BY_USER, method = RequestMethod.GET)
     @ResponseBody
-    public HashMap<String, Object> findBabiesByUser() {
+    public HashMap<String, Object> findOrdersByUser() {
         HashMap<String, Object> response = new HashMap<>();
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         Optional<User> userOptional = userService.findByEmail(email);
         User user = userOptional.get();
-        response.put("babies", orderService.findByUser(user));
+        response.put("status", "okay");
+        response.put("orders", orderService.findByUser(user));
         // orderService.findByUser(user);
         return response;
     }

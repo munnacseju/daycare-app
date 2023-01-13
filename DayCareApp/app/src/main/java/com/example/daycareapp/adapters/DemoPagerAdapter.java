@@ -6,7 +6,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.Lifecycle;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
-import com.example.daycareapp.fragments.DemoFragment;
+import com.example.daycareapp.fragments.BabyFragment;
 
 public class DemoPagerAdapter extends FragmentStateAdapter {
     private static int NUM_ITEMS = 3;
@@ -20,11 +20,11 @@ public class DemoPagerAdapter extends FragmentStateAdapter {
     public Fragment createFragment(int position) {
         switch (position) {
             case 0: // Fragment # 0 - This will show fragment with message "first fragment"
-                return DemoFragment.newInstance("first fragment");
+                return BabyFragment.newInstance("first fragment");
             case 1: // Fragment # 0 - This will show fragment with message "second fragment"
-                return DemoFragment.newInstance("second fragment");
+                return BabyFragment.newInstance("second fragment");
             case 2: // Fragment # 1 - This will show fragment with message "third fragment"
-                return DemoFragment.newInstance("third fragment");
+                return BabyFragment.newInstance("third fragment");
             default:
                 return null;
         }

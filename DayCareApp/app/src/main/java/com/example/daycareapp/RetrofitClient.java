@@ -3,6 +3,8 @@ package com.example.daycareapp;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.example.daycareapp.util.SharedRefs;
+
 import java.io.IOException;
 import java.security.cert.CertificateException;
 
@@ -97,8 +99,6 @@ public class RetrofitClient {
             builder.addInterceptor(new Interceptor() {
                 @Override
                 public Response intercept(Chain chain) throws IOException {
-
-
                     Request request = chain.request();
                     request = request
                                 .newBuilder()
