@@ -1,6 +1,9 @@
 package com.example.daycareapp.viewmodels;
 
+import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
+
 import android.app.Application;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -19,6 +22,7 @@ public class AuthViewModel extends AndroidViewModel {
     }
 
     public LiveData<Boolean> login(String username, String password) {
+        Log.d(TAG, "*****viewmodel " + username +" "+ password);
         return authRepository.login(username, password);
     }
 

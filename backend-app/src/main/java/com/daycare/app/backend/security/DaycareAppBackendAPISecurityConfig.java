@@ -33,7 +33,7 @@ public class DaycareAppBackendAPISecurityConfig extends WebSecurityConfigurerAda
                 .disable()
                 .antMatcher("/**")
                 .authorizeRequests()
-                .antMatchers("/api/register", "/api/google-oauth-login").permitAll()
+                .antMatchers("/api/register","/api/test", "/api/google-oauth-login").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()

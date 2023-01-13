@@ -1,6 +1,10 @@
 package com.example.daycareapp.repositories;
 
+import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
+
 import android.content.Context;
+import android.util.Log;
+import android.widget.Toast;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -43,6 +47,9 @@ public class AuthRepository {
         authService.login(new LoginRequestModel(username, password)).enqueue(new Callback<retrofit2.Response<Void>>() {
             @Override
             public void onResponse(Call<retrofit2.Response<Void>> call, retrofit2.Response<retrofit2.Response<Void>> response) {
+                Log.d(TAG, "*** Response code =" + response.code());
+                Log.d(TAG, "****************************");
+
                 if (response.code() == 200) {
                     String accessToken = response.headers().get(SharedRefs.AUTHORIZATION);
                     authService.getUserDetails(accessToken).enqueue(new Callback<UserDetailsResponseModel>() {

@@ -1,5 +1,9 @@
 package com.example.daycareapp.network.request;
 
+import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
+
+import android.util.Log;
+
 import com.google.gson.annotations.SerializedName;
 
 public class RegisterRequestModel {
@@ -13,6 +17,7 @@ public class RegisterRequestModel {
     private String name;
 
     public RegisterRequestModel(String name, String email, String password) {
+        Log.d(TAG, "*** res req mod " + email);
         this.name = name;
         this.email = email;
         this.password = password;

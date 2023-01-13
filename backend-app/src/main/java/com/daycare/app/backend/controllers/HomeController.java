@@ -19,6 +19,7 @@ import com.daycare.app.backend.models.User;
 @RestController
 public class HomeController {
 	
+    
 	@Autowired
 	private UserService userService;
 
@@ -33,6 +34,13 @@ public class HomeController {
         User user = userService.findByEmail(authUserEmail).get();
         values.put("user name", user.getName());
         values.put("User Email", authUserEmail);
+        return values;
+    }
+
+    @GetMapping("/api/test")
+    public HashMap<String, String> test() {
+        HashMap<String, String> values = new HashMap<>();
+        values.put("hello", "Welcome!");
         return values;
     }
 }

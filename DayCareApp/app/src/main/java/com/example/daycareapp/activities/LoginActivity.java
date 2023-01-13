@@ -9,15 +9,20 @@ import androidx.lifecycle.ViewModelProvider;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.example.daycareapp.AuthToken;
 import com.example.daycareapp.R;
+import com.example.daycareapp.RetrofitClient;
+import com.example.daycareapp.User;
 import com.example.daycareapp.network.response.GoogleLoginResponseModel;
 import com.example.daycareapp.network.service.GoogleLoginService;
 import com.example.daycareapp.viewmodels.AuthViewModel;
@@ -25,6 +30,11 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.tasks.Task;
+
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity {
     private static final String TAG = "LoginActivity";
@@ -88,6 +98,8 @@ public class LoginActivity extends AppCompatActivity {
                 } else {
                     loginWithForm(email, password);
                 }
+
+
             }
         });
     }
@@ -120,5 +132,45 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(new Intent(this, RegisterActivity.class));
         overridePendingTransition(R.anim.slide_in_right, R.anim.stay);
         finish();
+    }
+
+    private void loginUser(String email, String password) {
+
+        Call<ResponseBody> call = RetrofitClient
+                .getInstance()
+                .getAPI()
+                .checkUser(new User(email, password));
+
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                Log.d("hello", call.request().toString());
+                if (response.isSuccessful() && response.code() == 200) {
+                    Log.d("token", response.headers().get("Authorization"));
+
+                    String authToken = response.headers().get("Authorization");
+                    AuthToken.authToken = authToken;
+                    Toast.makeText(getApplicationContext(), "Successfully Logged in!", Toast.LENGTH_LONG).show();
+
+
+                    SharedPreferences sharedPreferences = getSharedPreferences("data",MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString("auth", authToken);
+                    editor.apply();
+                    finish();
+                    startActivity(new Intent(getApplicationContext(), ProtectedActivity.class));
+                } else {
+                    Toast.makeText(getApplicationContext(), "Wrong Credentials! Try again!", Toast.LENGTH_LONG).show();
+//                    Toast.makeText(Registration.this, "Some unknown problem occurred!", Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Toast.makeText(getApplicationContext(), t.getMessage(), Toast.LENGTH_LONG).show();
+                Log.d("error socket", t.getMessage());
+            }
+        });
+
     }
 }
