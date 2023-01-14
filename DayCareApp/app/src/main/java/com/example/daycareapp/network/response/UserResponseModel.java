@@ -12,6 +12,25 @@ public class UserResponseModel {
     @SerializedName(value = "email")
     private String email;
 
+    private String verificationPin = "";
+    private boolean isVerified = false;
+
+    public String getVerificationPin() {
+        return verificationPin;
+    }
+
+    public void setVerificationPin(String verificationPin) {
+        this.verificationPin = verificationPin;
+    }
+
+    public boolean isVerified() {
+        return isVerified;
+    }
+
+    public void setVerified(boolean verified) {
+        isVerified = verified;
+    }
+
     public UserResponseModel(int id, String name, String email) {
         this.id = id;
         this.name = name;

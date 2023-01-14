@@ -39,8 +39,11 @@ public class BabyController {
         Optional<User> userOptional = userService.findByEmail(email);
         User user = userOptional.get();
         baby.setUser(user);
+        baby.setId(null);
         babyService.save(baby);
         response.put("baby", baby);
+        response.put("status", "okay");
+
         return response;
     }
 

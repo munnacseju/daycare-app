@@ -23,7 +23,7 @@ public class FeeActivity extends AppCompatActivity {
     
     TextView nametv, locationtv, feetv, ratingtv;
     ImageView imageView;
-    Button booknowButton, seeReviewBt;
+    Button addBabyButton, seeReviewBt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +36,7 @@ public class FeeActivity extends AppCompatActivity {
         imageView = findViewById(R.id.profileimageid);
         feetv = findViewById(R.id.feetvid);
         ratingtv = findViewById(R.id.ratingid);
-        booknowButton = findViewById(R.id.bookbuttonid);
+        addBabyButton = findViewById(R.id.addBabyBtId);
         seeReviewBt = findViewById(R.id.reviewBtId);
 
         String name = this.getIntent().getStringExtra("name");
@@ -45,7 +45,7 @@ public class FeeActivity extends AppCompatActivity {
 
         Toast.makeText(this, "img: " +imageText, Toast.LENGTH_SHORT).show();
 
-        nametv.setText(name+ " " + imageText);
+        nametv.setText(name);
         locationtv.setText(location);
         feetv.setText("Fee: 100tk");
         ratingtv.setText("Rating: *****");
@@ -61,10 +61,10 @@ public class FeeActivity extends AppCompatActivity {
         canvas.drawRoundRect((new RectF(0, 0, mbitmap.getWidth(), mbitmap.getHeight())), 10, 10, mpaint); // Round Image Corner 100 100 100 100
         imageView.setImageBitmap(imageRounded);
 
-        booknowButton.setOnClickListener(new View.OnClickListener() {
+        addBabyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), DateActivity.class);
+                Intent intent = new Intent(getApplicationContext(), BabyActivity.class);
                 finish();
                 startActivity(intent);
                 Toast.makeText(FeeActivity.this, "Clicked for book now", Toast.LENGTH_SHORT).show();

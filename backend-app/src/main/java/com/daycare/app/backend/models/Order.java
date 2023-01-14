@@ -23,12 +23,35 @@ public class Order {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 	
-    @Column(name = "baby_id", nullable = false)
+    public Order(Long id, User user, Long babyId, Long caregiverId, Long amount, Timestamp startTime, Timestamp endTime,
+			boolean isPaymentDone, boolean isServiceDone, String speciality) {
+		this.id = id;
+		this.user = user;
+		this.babyId = babyId;
+		this.caregiverId = caregiverId;
+		this.amount = amount;
+		this.startTime = startTime;
+		this.endTime = endTime;
+		this.isPaymentDone = isPaymentDone;
+		this.isServiceDone = isServiceDone;
+		this.speciality = speciality;
+	}
+	@Column(name = "baby_id", nullable = false)
     private Long babyId;
 	
     @Column(name = "caregiver_id")
     private Long caregiverId;
+	private Long amount;
 	
+	public void setBabyId(Long babyId) {
+		this.babyId = babyId;
+	}
+	public Long getAmount() {
+		return amount;
+	}
+	public void setAmount(Long amount) {
+		this.amount = amount;
+	}
 	@Column(columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private Timestamp startTime = new Timestamp(System.currentTimeMillis());
 	

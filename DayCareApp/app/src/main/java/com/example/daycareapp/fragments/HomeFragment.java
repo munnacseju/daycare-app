@@ -92,6 +92,7 @@ public class HomeFragment extends Fragment {
         @Override
         public void onClick(Caregiver caregiver) {
             Intent intent = new Intent(getContext(), FeeActivity.class);
+            intent.putExtra("caregiver_id", caregiver.getId());
             intent.putExtra("name", caregiver.getCaregiverMotherName());
             intent.putExtra("location", caregiver.getAddress());
             intent.putExtra("img", "img1");

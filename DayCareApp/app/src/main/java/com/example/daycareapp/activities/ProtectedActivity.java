@@ -3,6 +3,8 @@ package com.example.daycareapp.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,12 +43,21 @@ public class ProtectedActivity extends AppCompatActivity {
     SharedRefs sharedRefs;
     TextView userNameTextView;
     TextView userEmailTextView;
+    Button verifyAccountButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_protected);
 
+        verifyAccountButton = findViewById(R.id.verifiAccountBtId);
+        verifyAccountButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), AccountVerifyActivity.class);
+                startActivity(intent);
+            }
+        });
         sharedRefs = new SharedRefs(getApplicationContext());
         setSupportActionBar(findViewById(R.id.toolbar));
 
@@ -65,6 +76,12 @@ public class ProtectedActivity extends AppCompatActivity {
         userNameTextView.setText(sharedRefs.getString(sharedRefs.USER_NAME, "user name not found"));
         userEmailTextView.setText(sharedRefs.getString(sharedRefs.USER_EMAIL, "user email not found"));
         AuthToken.authToken = sharedRefs.getString(SharedRefs.ACCESS_TOKEN, "");
+        boolean isAccountVerified = Boolean.parseBoolean(sharedRefs.getString(sharedRefs.IS_VERIFIED, "false"));
+        if(!isAccountVerified){
+            verifyAccountButton.setVisibility(View.VISIBLE);
+        }else{
+            verifyAccountButton.setVisibility(View.GONE);
+        }
         drawer = findViewById(R.id.drawer_layout);
         drawerToggle = new ActionBarDrawerToggle(this, drawer, R.string.open, R.string.close);
         drawer.addDrawerListener(drawerToggle);

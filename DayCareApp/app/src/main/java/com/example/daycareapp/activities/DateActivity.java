@@ -14,12 +14,21 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.example.daycareapp.R;
+import com.example.daycareapp.RetrofitClient;
+import com.example.daycareapp.models.Baby;
+import com.example.daycareapp.models.Order;
+import com.example.daycareapp.network.response.AddBabyResponse;
+import com.example.daycareapp.network.response.CreateOrderResponse;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class DateActivity extends AppCompatActivity {
 
@@ -34,12 +43,15 @@ public class DateActivity extends AppCompatActivity {
     String endDate, endTime;
     int startYear, startMonthOfYear, startDateOfMonth, startHourOfDay, startMinute;
     int endYear, endMonthOfYear, endDateOfMonth, endHourOfDay, endMinute;
-
+    Long caregiverId, babyId;
+    Long amount = 0L;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_date);
 
+        caregiverId = this.getIntent().getLongExtra("caregiver_id", 1);
+        babyId = this.getIntent().getLongExtra("baby_id", 1);
         paybt = findViewById(R.id.paybtid);
         startDateTv = findViewById(R.id.startDateTvId);
         endDateTv = findViewById(R.id.endDateTvId);
@@ -50,6 +62,7 @@ public class DateActivity extends AppCompatActivity {
         paybt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                createOrder();
                 Intent intent = new Intent(getApplicationContext(), PaymentActivity.class);
                 finish();
                 startActivity(intent);
@@ -170,6 +183,8 @@ public class DateActivity extends AppCompatActivity {
         long numberOfHours = numberOfMiliseconds / (1000*60*60);
         calculatedAmountTv.setVisibility(View.VISIBLE);
         if(numberOfHours>0){
+
+            amount = numberOfHours * 200;
             calculatedAmountTv.setText("Total hours: "+ numberOfHours + ", and " +"Price: " + numberOfHours*200 + "tk (BDT)");
             paybt.setVisibility(View.VISIBLE);
 
@@ -178,4 +193,32 @@ public class DateActivity extends AppCompatActivity {
         }
         Toast.makeText(getApplicationContext(), "Calculated time : " + numberOfHours, Toast.LENGTH_SHORT).show();
     }
+
+    private void createOrder() {
+//        progressBar.setVisibility(View.VISIBLE);
+        Call<CreateOrderResponse> call = RetrofitClient
+                .getInstance()
+                .getAPI()
+                .createOrder(new Order("nope", babyId, caregiverId, amount, false, false));
+
+        call.enqueue(new Callback<CreateOrderResponse>() {
+            @Override
+            public void onResponse(Call<CreateOrderResponse> call, Response<CreateOrderResponse> response) {
+                if (response.isSuccessful() && response.code() == 200) {
+                    String message = response.body().getStatus();
+                    Toast.makeText(getApplicationContext(), "Successfully created order! status: "+message, Toast.LENGTH_LONG).show();
+
+                } else {
+//                    progressBar.setVisibility(View.GONE);
+                    Toast.makeText(getApplicationContext(), "Some unknown problem occurred!! "+response.code(), Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CreateOrderResponse> call, Throwable t) {
+                Toast.makeText(getApplicationContext(), t.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
 }

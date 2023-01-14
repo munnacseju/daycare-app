@@ -1,9 +1,13 @@
 package com.example.daycareapp;
 
+import com.example.daycareapp.models.Baby;
 import com.example.daycareapp.models.Caregiver;
+import com.example.daycareapp.models.Order;
+import com.example.daycareapp.network.response.AddBabyResponse;
 import com.example.daycareapp.network.response.AllBabyResponse;
 import com.example.daycareapp.network.response.AllCaregiverResponse;
 import com.example.daycareapp.network.response.AllOrderResponse;
+import com.example.daycareapp.network.response.CreateOrderResponse;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,5 +39,11 @@ public interface API {
 
     @GET("findAllOrder")
     Call<AllOrderResponse> findAllOrder();
+
+    @POST("addBaby")
+    Call<AddBabyResponse> addBaby(@Body Baby baby);
+
+    @POST("addOrder")
+    Call<CreateOrderResponse> createOrder(@Body Order order);
 
 }

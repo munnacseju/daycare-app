@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorWhite"
-    tools:context=".fragments.BabyFragment">
+    tools:context=".activities.BabyActivity">
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -23,7 +23,7 @@
                 android:orientation="vertical">
 
                 <Button
-                    android:id="@+id/addBaby"
+                    android:id="@+id/addBabyBtId"
                     android:layout_width="wrap_content"
                     android:layout_height="40dp"
                     android:layout_gravity="center"
@@ -36,7 +36,6 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
-
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/projectsRecyclerView"
                         android:layout_width="match_parent"

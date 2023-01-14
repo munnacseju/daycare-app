@@ -11,7 +11,44 @@ public class Order {
     private Long babyId;
     private Long caregiverId;
     private Timestamp startTime;
+
+    public Order(String speciality, Long babyId, Long caregiverId, Long amount, boolean isPaymentDone, boolean isServiceDone) {
+        this.speciality = speciality;
+        this.babyId = babyId;
+        this.caregiverId = caregiverId;
+        this.amount = amount;
+        this.isPaymentDone = isPaymentDone;
+        this.isServiceDone = isServiceDone;
+    }
+
     private Timestamp endTime;
+
+    public Order(Long id, User user, Long babyId, Long caregiverId, Timestamp startTime, Timestamp endTime, Long amount, boolean isPaymentDone, boolean isServiceDone, String speciality) {
+        this.id = id;
+        this.user = user;
+        this.babyId = babyId;
+        this.caregiverId = caregiverId;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.amount = amount;
+        this.isPaymentDone = isPaymentDone;
+        this.isServiceDone = isServiceDone;
+        this.speciality = speciality;
+    }
+
+    public void setBabyId(Long babyId) {
+        this.babyId = babyId;
+    }
+
+    public Long getAmount() {
+        return amount;
+    }
+
+    public void setAmount(Long amount) {
+        this.amount = amount;
+    }
+
+    private Long amount;
 
     private boolean isPaymentDone = false;
     private boolean isServiceDone = false;
