@@ -143,8 +143,11 @@ public class AuthController {
         User user = userOptional.get();
         if(pin.equals(user.getVerificationPin())) {
         	user.setIsVerified(true);
+            userService.save(user);
+            System.out.println("user virification updated");
         }else {
-        	response.put("status", "Not verified");
+        	// response.put("status", "Not verified");
+            System.out.println("code not equal" + "pin " + pin);
             return response;
         }
 

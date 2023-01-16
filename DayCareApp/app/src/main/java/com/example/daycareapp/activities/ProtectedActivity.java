@@ -102,9 +102,9 @@ public class ProtectedActivity extends AppCompatActivity {
     public void selectDrawerItem(MenuItem menuItem) {
         Fragment fragment;
         switch (menuItem.getItemId()) {
-            case R.id.nav_demo_pager: // It is a demo pager (it is here just for learning purpose)
-                fragment = new DemoPagerFragment();
-                break;
+//            case R.id.nav_demo_pager: // It is a demo pager (it is here just for learning purpose)
+//                fragment = new DemoPagerFragment();
+//                break;
             case R.id.nav_baby:
                 fragment = BabyFragment.newInstance("Baby Fragment");
                 break;

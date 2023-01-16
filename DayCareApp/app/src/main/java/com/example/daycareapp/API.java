@@ -18,6 +18,7 @@ import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 
 public interface API {
 
@@ -45,5 +46,8 @@ public interface API {
 
     @POST("addOrder")
     Call<CreateOrderResponse> createOrder(@Body Order order);
+
+    @GET("verifypin/{pin}")
+    Call<ResponseBody> veryfyPin(@Path("pin") String pin);
 
 }

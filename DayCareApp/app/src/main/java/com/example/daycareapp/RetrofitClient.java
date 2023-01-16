@@ -23,7 +23,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitClient {
-    private static final String BASE_URL = "http://192.168.31.220:8092/api/";
+    private static final String BASE_URL = "http://20.219.162.197:8092/api/";
     private static RetrofitClient mInstance;
     private Retrofit retrofit;
 
