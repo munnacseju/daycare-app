@@ -64,6 +64,7 @@
                 android:layout_marginEnd="20dp"
                 android:background="@drawable/bg_button"
                 android:text="Book Now"
+                android:id="@+id/bookNowBtId"
                 android:textAllCaps="false" />
         </LinearLayout>
     </LinearLayout>

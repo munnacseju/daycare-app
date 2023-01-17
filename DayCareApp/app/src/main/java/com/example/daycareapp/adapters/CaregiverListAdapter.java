@@ -5,6 +5,7 @@ import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -40,7 +41,7 @@ public class CaregiverListAdapter extends RecyclerView.Adapter<CaregiverListView
     public void onBindViewHolder(@NonNull CaregiverListViewHolder holder, int position) {
         Caregiver caregiver = caregiverList.get(position);
         holder.setData(caregiver);
-        holder.caregiverNameTv.setOnClickListener(new View.OnClickListener() {
+        holder.bookNow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 caregiverClickListener.onClick(caregiver);
@@ -68,12 +69,14 @@ class CaregiverListViewHolder extends RecyclerView.ViewHolder {
     public TextView caregiverNameTv;
     public TextView caregiverLocationTv;
     public ImageView caregiverImageView;
+    public Button bookNow;
     public CaregiverListViewHolder(@NonNull View itemView, Context context) {
         super(itemView);
         this.context = context;
         caregiverNameTv = itemView.findViewById(R.id.caregiverName);
         caregiverLocationTv = itemView.findViewById(R.id.caregiverLocation);
         caregiverImageView = itemView.findViewById(R.id.caregiverImage);
+        bookNow = itemView.findViewById(R.id.bookNowBtId);
     }
 
     public void setData(Caregiver caregiver) {

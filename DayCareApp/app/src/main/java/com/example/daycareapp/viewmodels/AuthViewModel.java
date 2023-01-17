@@ -30,7 +30,7 @@ public class AuthViewModel extends AndroidViewModel {
         return authRepository.googleOAuthLogin(googleLoginResponseModel);
     }
 
-    public LiveData<Boolean> register(String name, String username, String password) {
+    public LiveData<String> register(String name, String username, String password) {
         return authRepository.register(name, username, password);
     }
 }

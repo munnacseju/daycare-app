@@ -114,5 +114,4 @@ public class RetrofitClient {
             throw new RuntimeException(e);
         }
     }
-
 }

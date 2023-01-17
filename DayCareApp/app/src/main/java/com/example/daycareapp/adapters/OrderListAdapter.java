@@ -76,8 +76,8 @@ class OrderListViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void setData(Order order) {
-        orderIdTv.setText(order.getId()+" ");
-        orderTimeTv.setText(order.getBabyId()+" ");
+        orderIdTv.setText("Caregiver id: " + order.getCaregiverId()+" ");
+        orderTimeTv.setText("Baby id: " + order.getBabyId()+" ");
         String PACKAGE_NAME = context.getPackageName();
         int imageId = context.getResources().getIdentifier(PACKAGE_NAME + ":drawable/" + "img4z", null, null);
         orderImageView.setImageBitmap(BitmapFactory.decodeResource(context.getResources(), imageId));

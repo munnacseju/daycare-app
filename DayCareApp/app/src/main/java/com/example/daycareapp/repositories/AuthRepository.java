@@ -137,23 +137,25 @@ public class AuthRepository {
         return isLoginSuccessful;
     }
 
-    public LiveData<Boolean> register(String name, String email, String password) {
-        MutableLiveData<Boolean> isRegistrationSuccessful = new MutableLiveData<>();
+    public LiveData<String> register(String name, String email, String password) {
+        MutableLiveData<String> isRegistrationSuccessful = new MutableLiveData<>();
+        String message = "";
         authService.register(new RegisterRequestModel(name, email, password)).enqueue(new Callback<RegisterResponseModel>() {
             @Override
             public void onResponse(Call<RegisterResponseModel> call, retrofit2.Response<RegisterResponseModel> response) {
                 RegisterResponseModel registerResponseModel = response.body();
                 String status = registerResponseModel.getStatus();
                 if (status.equals("OK")) {
-                    isRegistrationSuccessful.setValue(true);
+                    isRegistrationSuccessful.setValue("success");
                 } else {
-                    isRegistrationSuccessful.setValue(false);
+                    isRegistrationSuccessful.setValue("failed");
+
                 }
             }
 
             @Override
             public void onFailure(Call<RegisterResponseModel> call, Throwable t) {
-                isRegistrationSuccessful.setValue(false);
+                isRegistrationSuccessful.setValue("Error: " + t.getMessage());
             }
         });
         return isRegistrationSuccessful;

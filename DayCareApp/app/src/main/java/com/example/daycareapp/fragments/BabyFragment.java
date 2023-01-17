@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import com.example.daycareapp.R;
 import com.example.daycareapp.RetrofitClient;
+import com.example.daycareapp.activities.AddBabyActivity;
 import com.example.daycareapp.activities.FeeActivity;
 import com.example.daycareapp.adapters.BabyListAdapter;
 import com.example.daycareapp.listeners.BabyClickListener;
@@ -44,6 +45,7 @@ public class BabyFragment extends Fragment {
     private SharedRefs sharedRefs;
     private Dialog dialog;
     private Button filterButton;
+//    Button addBaby;
 
     public BabyFragment(String demoMessage) {
         this.demoMessage = demoMessage;
@@ -66,7 +68,17 @@ public class BabyFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_baby, container, false);
+        View view = inflater.inflate(R.layout.fragment_baby, container, false);
+//        addBaby = view.findViewById(R.id.addBaby);
+//        addBaby.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent = new Intent(getContext(), AddBabyActivity.class);
+//                startActivity(intent);
+//            }
+//        });
+
+        return view;
     }
 
     @Override

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Patterns;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -21,6 +22,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.daycareapp.R;
 import com.example.daycareapp.network.response.GoogleLoginResponseModel;
+//import com.example.daycareapp.network.service.GoogleLoginService;
 import com.example.daycareapp.network.service.GoogleLoginService;
 import com.example.daycareapp.viewmodels.AuthViewModel;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -82,7 +84,7 @@ public class RegisterActivity extends AppCompatActivity {
                 String password = editTextPassword.getText().toString();
                 EditText editTextName = findViewById(R.id.editTextName);
                 String name = editTextName.getText().toString();
-                if (email == null || email.length() == 0) {
+                if (email == null || email.length() == 0 || !Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
                     Toast.makeText(RegisterActivity.this, "Invalid Email!", Toast.LENGTH_SHORT).show();
                 } else if (password == null || password.length() == 0) {
                     Toast.makeText(RegisterActivity.this, "Invalid Password", Toast.LENGTH_SHORT).show();
@@ -97,12 +99,15 @@ public class RegisterActivity extends AppCompatActivity {
 
     private void registerWithForm(String name, String username, String password) {
         authViewModel.register(name, username, password).observe(RegisterActivity.this, isRegistrationSuccessful -> {
-            if (isRegistrationSuccessful) {
+            if (isRegistrationSuccessful.equals("success")) {
                 Toast.makeText(RegisterActivity.this, "Registration Successful!", Toast.LENGTH_LONG).show();
                 startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
                 finish();
-            } else {
-                Toast.makeText(RegisterActivity.this, "Wrong email/password!", Toast.LENGTH_LONG).show();
+            } else if(isRegistrationSuccessful.equals("failed")){
+                Toast.makeText(RegisterActivity.this, "Wrong username", Toast.LENGTH_LONG).show();
+            }
+            else {
+                Toast.makeText(RegisterActivity.this, isRegistrationSuccessful.toString(), Toast.LENGTH_LONG).show();
             }
         });
     }

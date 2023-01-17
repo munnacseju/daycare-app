@@ -76,8 +76,8 @@ class BabyListViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void setData(Baby baby) {
-        babyNameTv.setText(baby.getBabyName());
-        babyLocationTv.setText(baby.getAddress());
+        babyNameTv.setText("Baby Name: "+baby.getBabyName());
+        babyLocationTv.setText("Address: " + baby.getAddress());
         String PACKAGE_NAME = context.getPackageName();
         int imageId = context.getResources().getIdentifier(PACKAGE_NAME + ":drawable/" + "img4z", null, null);
         babyImageView.setImageBitmap(BitmapFactory.decodeResource(context.getResources(), imageId));
