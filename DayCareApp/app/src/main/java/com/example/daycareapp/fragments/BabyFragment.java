@@ -20,8 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.daycareapp.R;
-import com.example.daycareapp.RetrofitClient;
-import com.example.daycareapp.activities.AddBabyActivity;
+import com.example.daycareapp.network.RetrofitAPIClient;
 import com.example.daycareapp.activities.FeeActivity;
 import com.example.daycareapp.adapters.BabyListAdapter;
 import com.example.daycareapp.listeners.BabyClickListener;
@@ -115,7 +114,7 @@ public class BabyFragment extends Fragment {
 
     private void getCareGiverList() {
 //        progressBar.setVisibility(View.VISIBLE);
-        Call<AllBabyResponse> call = RetrofitClient
+        Call<AllBabyResponse> call = RetrofitAPIClient
                 .getInstance()
                 .getAPI()
                 .findAllBaby();

@@ -21,7 +21,7 @@ public class AuthViewModel extends AndroidViewModel {
         authRepository = new AuthRepository(application);
     }
 
-    public LiveData<Boolean> login(String username, String password) {
+    public LiveData<String> login(String username, String password) {
         Log.d(TAG, "*****viewmodel " + username +" "+ password);
         return authRepository.login(username, password);
     }

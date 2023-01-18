@@ -1,7 +1,5 @@
 package com.example.daycareapp.models;
 
-import com.example.daycareapp.User;
-
 import java.sql.Timestamp;
 
 public class Order {

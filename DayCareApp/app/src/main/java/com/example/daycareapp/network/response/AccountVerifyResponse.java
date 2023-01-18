@@ -1,6 +1,6 @@
 package com.example.daycareapp.network.response;
 
-import com.example.daycareapp.User;
+import com.example.daycareapp.models.User;
 
 public class AccountVerifyResponse {
     String status;

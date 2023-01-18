@@ -14,17 +14,11 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.example.daycareapp.R;
-import com.example.daycareapp.RetrofitClient;
-import com.example.daycareapp.models.Baby;
+import com.example.daycareapp.network.RetrofitAPIClient;
 import com.example.daycareapp.models.Order;
-import com.example.daycareapp.network.response.AddBabyResponse;
 import com.example.daycareapp.network.response.CreateOrderResponse;
 
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
-import java.util.Date;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -196,7 +190,7 @@ public class DateActivity extends AppCompatActivity {
 
     private void createOrder() {
 //        progressBar.setVisibility(View.VISIBLE);
-        Call<CreateOrderResponse> call = RetrofitClient
+        Call<CreateOrderResponse> call = RetrofitAPIClient
                 .getInstance()
                 .getAPI()
                 .createOrder(new Order("nope", babyId, caregiverId, amount, false, false));

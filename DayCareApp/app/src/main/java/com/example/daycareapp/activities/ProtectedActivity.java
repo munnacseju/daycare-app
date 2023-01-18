@@ -16,8 +16,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
-import com.example.daycareapp.AuthToken;
-import com.example.daycareapp.fragments.DemoPagerFragment;
+import com.example.daycareapp.util.AuthToken;
 import com.example.daycareapp.R;
 import com.example.daycareapp.fragments.BabyFragment;
 import com.example.daycareapp.fragments.HomeFragment;

@@ -63,7 +63,7 @@ public class AuthController {
         HashMap<String, Object> response = new HashMap<>();
         Optional<User> existsUser = userService.findByEmail(user.getEmail());
         if (existsUser.isPresent()) {
-            response.put("status", "EMAIL_EXISTS");
+            response.put("status", "EMAIL EXISTS");
             response.put("error", "User is already registered!");
             return response;
         }

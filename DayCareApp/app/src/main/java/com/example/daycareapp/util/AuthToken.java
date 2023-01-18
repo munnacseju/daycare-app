@@ -1,4 +1,4 @@
-package com.example.daycareapp;
+package com.example.daycareapp.util;
 
 public class AuthToken {
 

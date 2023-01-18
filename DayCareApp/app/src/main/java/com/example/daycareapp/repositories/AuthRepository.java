@@ -4,14 +4,13 @@ import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
 
 import android.content.Context;
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.example.daycareapp.AuthToken;
+import com.example.daycareapp.util.AuthToken;
 import com.example.daycareapp.configs.Config;
-import com.example.daycareapp.network.APIClient;
+import com.example.daycareapp.network.AuthAPIClient;
 import com.example.daycareapp.network.request.LoginRequestModel;
 import com.example.daycareapp.network.request.RegisterRequestModel;
 import com.example.daycareapp.network.response.GoogleLoginResponseModel;
@@ -30,19 +29,19 @@ public class AuthRepository {
     SharedRefs sharedRefs;
 
     public AuthRepository(Context context) {
-        authService = APIClient.getInstance().create(AuthService.class);
+        authService = AuthAPIClient.getInstance().create(AuthService.class);
         sharedRefs = new SharedRefs(context);
     }
 
-    public LiveData<Boolean> login(String username, String password) {
-        MutableLiveData<Boolean> isLoginSuccessful = new MutableLiveData<>();
+    public LiveData<String> login(String username, String password) {
+        MutableLiveData<String> isLoginSuccessful = new MutableLiveData<>();
         if (Config.isLoginOffline) {
             UserResponseModel user =  new UserResponseModel(100, "Alice", "alice@gmail.com");
             sharedRefs.putString(SharedRefs.ACCESS_TOKEN, "DUMMY_ACCESS_TOKEN");
             sharedRefs.putString(SharedRefs.USER_NAME, user.getName());
             sharedRefs.putString(SharedRefs.USER_EMAIL, user.getEmail());
             sharedRefs.putString(SharedRefs.USER_ID, String.valueOf(user.getId()));
-            isLoginSuccessful.setValue(true);
+            isLoginSuccessful.setValue("success");
             return isLoginSuccessful;
         }
         authService.login(new LoginRequestModel(username, password)).enqueue(new Callback<retrofit2.Response<Void>>() {
@@ -65,28 +64,28 @@ public class AuthRepository {
                                 sharedRefs.putString(SharedRefs.USER_ID, String.valueOf(user.getId()));
                                 sharedRefs.putString(SharedRefs.IS_VERIFIED, user.isVerified()+"");
                                 AuthToken.authToken = accessToken;
-                                isLoginSuccessful.setValue(true);
+                                isLoginSuccessful.setValue("success");
                             }
                             else {
-                                isLoginSuccessful.setValue(false);
+                                isLoginSuccessful.setValue("failed");
                             }
                         }
 
                         @Override
                         public void onFailure(Call<UserDetailsResponseModel> call, Throwable t) {
-                            isLoginSuccessful.setValue(false);
+                            isLoginSuccessful.setValue("error: " + t);
                         }
                     });
                 }
                 else {
-                    isLoginSuccessful.setValue(false);
+                    isLoginSuccessful.setValue("Unknown problem!");
                 }
             }
 
             @Override
             public void onFailure(Call<retrofit2.Response<Void>> call, Throwable t) {
                 t.printStackTrace();
-                isLoginSuccessful.setValue(false);
+                isLoginSuccessful.setValue("error: " + t);
             }
         });
         return isLoginSuccessful;
@@ -148,8 +147,7 @@ public class AuthRepository {
                 if (status.equals("OK")) {
                     isRegistrationSuccessful.setValue("success");
                 } else {
-                    isRegistrationSuccessful.setValue("failed");
-
+                    isRegistrationSuccessful.setValue(status + " " + registerResponseModel.getError());
                 }
             }
 

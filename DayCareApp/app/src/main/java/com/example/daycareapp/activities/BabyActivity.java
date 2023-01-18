@@ -13,7 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.daycareapp.R;
-import com.example.daycareapp.RetrofitClient;
+import com.example.daycareapp.network.RetrofitAPIClient;
 import com.example.daycareapp.adapters.BabyListAdapter;
 import com.example.daycareapp.listeners.BabyClickListener;
 import com.example.daycareapp.models.Baby;
@@ -81,7 +81,7 @@ public class BabyActivity extends AppCompatActivity {
 
     private void getBabyList() {
 //        progressBar.setVisibility(View.VISIBLE);
-        Call<AllBabyResponse> call = RetrofitClient
+        Call<AllBabyResponse> call = RetrofitAPIClient
                 .getInstance()
                 .getAPI()
                 .findAllBaby();

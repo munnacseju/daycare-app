@@ -23,7 +23,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.daycareapp.R;
-import com.example.daycareapp.RetrofitClient;
+import com.example.daycareapp.network.RetrofitAPIClient;
 import com.example.daycareapp.activities.FeeActivity;
 import com.example.daycareapp.adapters.OrderListAdapter;
 import com.example.daycareapp.listeners.OrderClickListener;
@@ -106,7 +106,7 @@ public class OrderFragment extends Fragment {
 
     private void getOrderList() {
 //        progressBar.setVisibility(View.VISIBLE);
-        Call<AllOrderResponse> call = RetrofitClient
+        Call<AllOrderResponse> call = RetrofitAPIClient
                 .getInstance()
                 .getAPI()
                 .findAllOrder();

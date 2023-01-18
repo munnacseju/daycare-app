@@ -20,7 +20,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.daycareapp.R;
-import com.example.daycareapp.RetrofitClient;
+import com.example.daycareapp.network.RetrofitAPIClient;
 import com.example.daycareapp.activities.FeeActivity;
 import com.example.daycareapp.adapters.CaregiverListAdapter;
 import com.example.daycareapp.listeners.CaregiverClickListener;
@@ -172,7 +172,7 @@ public class HomeFragment extends Fragment {
 
     private void getCareGiverList() {
 //        progressBar.setVisibility(View.VISIBLE);
-        Call<AllCaregiverResponse> call = RetrofitClient
+        Call<AllCaregiverResponse> call = RetrofitAPIClient
                 .getInstance()
                 .getAPI()
                 .findAllCaregiver();

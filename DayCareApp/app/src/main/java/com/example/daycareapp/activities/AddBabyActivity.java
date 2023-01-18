@@ -10,10 +10,9 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.daycareapp.R;
-import com.example.daycareapp.RetrofitClient;
+import com.example.daycareapp.network.RetrofitAPIClient;
 import com.example.daycareapp.models.Baby;
 import com.example.daycareapp.network.response.AddBabyResponse;
-import com.example.daycareapp.network.response.AllBabyResponse;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -44,37 +43,75 @@ public class AddBabyActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Baby baby = new Baby();
-                if(babyNameEditText.getText()!=null ){
+                boolean isValidForm = checkValidity(babyNameEditText, babyAgeEditText, motherNameEditText, fatherNameEditText, contactNumberEditText, addressEditText, fevoriteFoodEditText);
+
+                if(isValidForm){
                     baby.setBabyName(babyNameEditText.getText().toString());
-                }else{
-                    babyNameEditText.setError("Enter Name first!");
-                    babyNameEditText.requestFocus();
+                    baby.setAddress(addressEditText.getText().toString());
+                    baby.setFevoriteFood(fevoriteFoodEditText.getText().toString());
+                    baby.setBabyAge(Integer.parseInt(babyAgeEditText.getText().toString()));
+                    baby.setFatherName(fatherNameEditText.getText().toString());
+                    baby.setMotherName(motherNameEditText.getText().toString());
+                    baby.setContactNumber(contactNumberEditText.getText().toString());
                 }
-                if(babyAgeEditText.getText()!=null){
-                    int babyAge = Integer.parseInt(babyAgeEditText.getText().toString());
-                    if(babyAge>=1 && babyAge<=5){
-                        baby.setBabyAge(babyAge);
-                    }else {
-                        babyAgeEditText.setError("Baby should be 1-5 years");
-                        babyAgeEditText.requestFocus();
-                    }
-                }else{
-                    babyAgeEditText.setError("Baby should not empty");
-                    babyAgeEditText.requestFocus();
-                }
-                baby.setMotherName(motherNameEditText.getText().toString());
-                baby.setFatherName(fatherNameEditText.getText().toString());
-                baby.setContactNumber(contactNumberEditText.getText().toString());
-                baby.setAddress(addressEditText.getText().toString());
-                baby.setFevoriteFood(fevoriteFoodEditText.getText().toString());
                 addBaby(baby);
             }
         });
     }
 
+    private boolean checkValidity(EditText babyNameEditText, EditText babyAgeEditText, EditText motherNameEditText, EditText fatherNameEditText, EditText contactNumberEditText, EditText addressEditText, EditText fevoriteFoodEditText) {
+        if(babyNameEditText.getText().toString().equals("") ){
+            babyNameEditText.setError("Enter Name first!");
+            babyNameEditText.requestFocus();
+            return false;
+        }
+        if(babyAgeEditText.getText().toString().equals("")){
+            babyAgeEditText.setError("Baby should not empty");
+            babyAgeEditText.requestFocus();
+            return false;
+        }else {
+            int babyAge = Integer.parseInt(babyAgeEditText.getText().toString());
+            if(babyAge<2 && babyAge>=4){
+                babyAgeEditText.setError("Baby should be 2-4 years");
+                babyAgeEditText.requestFocus();
+                return false;
+            }
+        }
+
+        if(motherNameEditText.getText().toString().equals("") ){
+            motherNameEditText.setError("Enter mother name first!");
+            motherNameEditText.requestFocus();
+            return false;
+        }
+        if(fatherNameEditText.getText().toString().equals("") ){
+            fatherNameEditText.setError("Enter Father Name first!");
+            fatherNameEditText.requestFocus();
+            return false;
+        }
+
+        if(contactNumberEditText.getText().toString().equals("") ){
+            contactNumberEditText.setError("Enter contact number first!");
+            contactNumberEditText.requestFocus();
+            return false;
+        }
+
+        if(addressEditText.getText().toString().equals("") ){
+            addressEditText.setError("Enter address first!");
+            addressEditText.requestFocus();
+            return false;
+        }
+
+        if(fevoriteFoodEditText.getText().toString().equals("") ){
+            fevoriteFoodEditText.setError("Enter fevorite food first!");
+            fevoriteFoodEditText.requestFocus();
+            return false;
+        }
+        return true;
+    }
+
     private void addBaby(Baby baby) {
 //        progressBar.setVisibility(View.VISIBLE);
-        Call<AddBabyResponse> call = RetrofitClient
+        Call<AddBabyResponse> call = RetrofitAPIClient
                 .getInstance()
                 .getAPI()
                 .addBaby(baby);
@@ -104,5 +141,7 @@ public class AddBabyActivity extends AppCompatActivity {
             }
         });
     }
+
+
 
 }

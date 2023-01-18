@@ -1,4 +1,4 @@
-package com.example.daycareapp;
+package com.example.daycareapp.models;
 
 
 public class User {

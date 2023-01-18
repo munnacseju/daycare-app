@@ -1,7 +1,5 @@
 package com.example.daycareapp.models;
 
-import com.example.daycareapp.User;
-
 public class Baby {
     private Long id;
     private User user;

@@ -1,9 +1,7 @@
-package com.example.daycareapp;
+package com.example.daycareapp.network;
 
-import android.content.Context;
-import android.content.SharedPreferences;
-
-import com.example.daycareapp.util.SharedRefs;
+import com.example.daycareapp.network.service.APIService;
+import com.example.daycareapp.util.AuthToken;
 
 import java.io.IOException;
 import java.security.cert.CertificateException;
@@ -22,13 +20,13 @@ import okhttp3.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class RetrofitClient {
+public class RetrofitAPIClient {
     private static final String BASE_URL = "http://20.219.162.197:8092/api/";
-    private static RetrofitClient mInstance;
+    private static RetrofitAPIClient mInstance;
     private Retrofit retrofit;
 
 
-    private RetrofitClient () {
+    private RetrofitAPIClient() {
         retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -36,15 +34,15 @@ public class RetrofitClient {
                 .build();
     }
 
-    public static synchronized RetrofitClient getInstance() {
+    public static synchronized RetrofitAPIClient getInstance() {
         if (mInstance == null) {
-            mInstance = new RetrofitClient();
+            mInstance = new RetrofitAPIClient();
         }
         return mInstance;
     }
 
-    public API getAPI () {
-        return retrofit.create(API.class);
+    public APIService getAPI () {
+        return retrofit.create(APIService.class);
     }
 
     private static OkHttpClient getUnsafeOkHttpClient() {

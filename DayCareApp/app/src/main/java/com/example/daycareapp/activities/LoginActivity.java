@@ -19,10 +19,10 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
-import com.example.daycareapp.AuthToken;
+import com.example.daycareapp.util.AuthToken;
 import com.example.daycareapp.R;
-import com.example.daycareapp.RetrofitClient;
-import com.example.daycareapp.User;
+import com.example.daycareapp.network.RetrofitAPIClient;
+import com.example.daycareapp.models.User;
 import com.example.daycareapp.network.response.GoogleLoginResponseModel;
 import com.example.daycareapp.network.service.GoogleLoginService;
 import com.example.daycareapp.util.SharedRefs;
@@ -108,14 +108,16 @@ public class LoginActivity extends AppCompatActivity {
 
     private void loginWithForm(String username, String password) {
         authViewModel.login(username, password).observe(LoginActivity.this, isLoginSuccessful -> {
-            if (isLoginSuccessful) {
+            if (isLoginSuccessful.equals("success")) {
                 Toast.makeText(LoginActivity.this, "Login Successful!", Toast.LENGTH_LONG).show();
                 startActivity(new Intent(LoginActivity.this, ProtectedActivity.class));
                 finish();
-            } else {
+            }else if(isLoginSuccessful.equals("failed")){
                 Toast.makeText(LoginActivity.this, "Wrong email/password!", Toast.LENGTH_LONG).show();
             }
-
+            else {
+                Toast.makeText(LoginActivity.this, "Error: "+isLoginSuccessful, Toast.LENGTH_LONG).show();
+            }
         });
     }
 
@@ -137,47 +139,42 @@ public class LoginActivity extends AppCompatActivity {
         finish();
     }
 
-    private void loginUser(String email, String password) {
-
-        Call<ResponseBody> call = RetrofitClient
-                .getInstance()
-                .getAPI()
-                .checkUser(new User(email, password));
-
-        call.enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                Log.d("hello", call.request().toString());
-                if (response.isSuccessful() && response.code() == 200) {
-                    Log.d("token", response.headers().get("Authorization"));
-
-                    String authToken = response.headers().get("Authorization");
-                    AuthToken.authToken = authToken;
-                    Toast.makeText(getApplicationContext(), "Successfully Logged in!", Toast.LENGTH_LONG).show();
-
-//                    sharedRefs.putString(SharedRefs.ACCESS_TOKEN, authToken);
-//                    sharedRefs.putString(SharedRefs.USER_NAME, user.getName());
-//                    sharedRefs.putString(SharedRefs.USER_EMAIL, user.getEmail());
-//                    sharedRefs.putString(SharedRefs.USER_ID, String.valueOf(user.getId()));
-
-                    SharedPreferences sharedPreferences = getSharedPreferences("data",MODE_PRIVATE);
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putString("auth", authToken);
-                    editor.apply();
-                    finish();
-                    startActivity(new Intent(getApplicationContext(), ProtectedActivity.class));
-
-                } else {
-                    Toast.makeText(getApplicationContext(), "Wrong Credentials! Try again!", Toast.LENGTH_LONG).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                Toast.makeText(getApplicationContext(), t.getMessage(), Toast.LENGTH_LONG).show();
-                Log.d("error socket", t.getMessage());
-            }
-        });
-
-    }
+//    private void loginUser(String email, String password) {
+//
+//        Call<ResponseBody> call = RetrofitAPIClient
+//                .getInstance()
+//                .getAPI()
+//                .checkUser(new User(email, password));
+//
+//        call.enqueue(new Callback<ResponseBody>() {
+//            @Override
+//            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+//                Log.d("hello", call.request().toString());
+//                if (response.isSuccessful() && response.code() == 200) {
+//                    Log.d("token", response.headers().get("Authorization"));
+//
+//                    String authToken = response.headers().get("Authorization");
+//                    AuthToken.authToken = authToken;
+//                    Toast.makeText(getApplicationContext(), "Successfully Logged in!", Toast.LENGTH_LONG).show();
+//                    SharedPreferences sharedPreferences = getSharedPreferences("data",MODE_PRIVATE);
+//                    SharedPreferences.Editor editor = sharedPreferences.edit();
+//                    editor.putString("auth", authToken);
+//                    editor.apply();
+//                    finish();
+//                    startActivity(new Intent(getApplicationContext(), ProtectedActivity.class));
+//
+//                } else {
+//                    Toast.makeText(getApplicationContext(), "Wrong Credentials! Try again!", Toast.LENGTH_LONG).show();
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<ResponseBody> call, Throwable t) {
+//                Toast.makeText(getApplicationContext(), t.getMessage(), Toast.LENGTH_LONG).show();
+//                Log.d("error socket", t.getMessage());
+//            }
+//        });
+//
+//    }
+//
 }

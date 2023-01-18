@@ -4,7 +4,7 @@ import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class APIClient {
+public class AuthAPIClient {
     public static String BASE_URL = "http://20.219.162.197:8092/api/";
     public static Retrofit instance;
 

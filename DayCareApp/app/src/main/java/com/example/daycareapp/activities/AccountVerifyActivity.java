@@ -11,8 +11,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.daycareapp.R;
-import com.example.daycareapp.RetrofitClient;
-import com.example.daycareapp.User;
+import com.example.daycareapp.network.RetrofitAPIClient;
+import com.example.daycareapp.models.User;
 import com.example.daycareapp.network.response.AccountVerifyResponse;
 import com.example.daycareapp.util.SharedRefs;
 
@@ -50,7 +50,7 @@ public class AccountVerifyActivity extends AppCompatActivity {
 
     private void verifyAccount(String pin) {
 
-        Call<AccountVerifyResponse> call = RetrofitClient
+        Call<AccountVerifyResponse> call = RetrofitAPIClient
                 .getInstance()
                 .getAPI()
                 .veryfyPin(pin);
