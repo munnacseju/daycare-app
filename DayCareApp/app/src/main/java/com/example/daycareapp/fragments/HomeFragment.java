@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.daycareapp.R;
+import com.example.daycareapp.activities.AddCaregiverActivity;
 import com.example.daycareapp.network.RetrofitAPIClient;
 import com.example.daycareapp.activities.FeeActivity;
 import com.example.daycareapp.adapters.CaregiverListAdapter;
@@ -42,7 +43,8 @@ public class HomeFragment extends Fragment {
     List<Caregiver> caregiverList;
     private SharedRefs sharedRefs;
     private Dialog dialog;
-    private Button filterButton;
+    private Button filterButton, addCaregiver;
+
 
 
     public HomeFragment(Context context) {
@@ -72,12 +74,27 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         filterButton = view.findViewById(R.id.filterButtonId);
+        addCaregiver = view.findViewById(R.id.addCaregiver);
+        sharedRefs = new SharedRefs(getContext());
         filterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 callForFilterDialog();
             }
         });
+        Toast.makeText(getActivity(), sharedRefs.getString(SharedRefs.USER_ROLE, "ROLE_US"), Toast.LENGTH_SHORT).show();
+        if(sharedRefs.getString(SharedRefs.USER_ROLE, "ROLE_USER").equals("ADMIN")){
+            addCaregiver.setVisibility(View.VISIBLE);
+        }
+        addCaregiver.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), AddCaregiverActivity.class);
+                getActivity().finish();
+                startActivity(intent);
+            }
+        });
+
 
         return view;
     }

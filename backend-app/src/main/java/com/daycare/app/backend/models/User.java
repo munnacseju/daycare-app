@@ -36,8 +36,32 @@ public class User {
 	private String verificationPin = "";
     private boolean isVerified = false;
 
-    public User() {
+    public User(Long id, @NotEmpty String name, @NotEmpty @Email String email, String password, String verificationPin,
+            boolean isVerified, String userRole) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.verificationPin = verificationPin;
+        this.isVerified = isVerified;
+        this.userRole = userRole;
+    }
 
+    private String userRole;
+
+    public void setVerified(boolean isVerified) {
+        this.isVerified = isVerified;
+    }
+
+    public String getUserRole() {
+        return userRole;
+    }
+
+    public void setUserRole(String userRole) {
+        this.userRole = userRole;
+    }
+
+    public User() {
     }
 
     public User(String name, String email, String password) {

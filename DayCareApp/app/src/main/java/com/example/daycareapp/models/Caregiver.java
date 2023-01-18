@@ -2,6 +2,42 @@ package com.example.daycareapp.models;
 
 public class Caregiver {
     private Long id;
+    private String speciality;
+
+    public String getAdminFeedBack() {
+        return adminFeedBack;
+    }
+
+    public Caregiver(Long id, String speciality, String adminFeedBack, User user, String caregiverMotherName, String address) {
+        this.id = id;
+        this.speciality = speciality;
+        this.adminFeedBack = adminFeedBack;
+        this.user = user;
+        this.caregiverMotherName = caregiverMotherName;
+        this.address = address;
+    }
+
+    public void setAdminFeedBack(String adminFeedBack) {
+        this.adminFeedBack = adminFeedBack;
+    }
+
+    private String adminFeedBack;
+
+    public Caregiver(Long id, String speciality, User user, String caregiverMotherName, String address) {
+        this.id = id;
+        this.speciality = speciality;
+        this.user = user;
+        this.caregiverMotherName = caregiverMotherName;
+        this.address = address;
+    }
+
+    public String getSpeciality() {
+        return speciality;
+    }
+
+    public void setSpeciality(String speciality) {
+        this.speciality = speciality;
+    }
 
     public Caregiver() {
     }

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.daycare.app.backend.models.Caregiver;
 import com.daycare.app.backend.models.User;
+import com.daycare.app.backend.models.UserRole;
 import com.daycare.app.backend.services.CaregiverService;
 import com.daycare.app.backend.services.UserService;
 
@@ -36,9 +37,18 @@ public class CaregiverController {
         HashMap<String, Object> response = new HashMap<>();
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         Optional<User> userOptional = userService.findByEmail(email);
-        User user = userOptional.get();         
+        User user = userOptional.get();
+        if(!user.getUserRole().equalsIgnoreCase(UserRole.ADMIN.toString())){
+            System.out.println(user.getUserRole() + " " + UserRole.ADMIN.toString());
+            response.put("status", "failed");
+            response.put("message", "You can't change caregiver");
+            response.put("caregiver", caregiver);
+            return response;
+        }         
         caregiver.setUser(user);
         caregiverService.save(caregiver);
+        response.put("status", "success");
+        response.put("message", "Added Successfully");
         response.put("caregiver", caregiver);
         return response;
     }
@@ -60,8 +70,17 @@ public class CaregiverController {
     @ResponseBody
     public HashMap<String, Object> deleteCaregiver(@PathVariable Long id) {
         HashMap<String, Object> response = new HashMap<>();
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        Optional<User> userOptional = userService.findByEmail(email);
+        User user = userOptional.get();
+        if(user.getUserRole()!=UserRole.ADMIN.toString()){
+            response.put("status", "failed!");
+            response.put("message", "You can't change caregiver");
+            return response;
+        }    
         caregiverService.deleteById(id);
-        response.put("caregiver deleted", id);
+        response.put("status", "success!");
+        response.put("message", "caregiver deleted!");
         return response;
     }
 }

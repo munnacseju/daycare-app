@@ -41,6 +41,7 @@ public class AuthRepository {
             sharedRefs.putString(SharedRefs.USER_NAME, user.getName());
             sharedRefs.putString(SharedRefs.USER_EMAIL, user.getEmail());
             sharedRefs.putString(SharedRefs.USER_ID, String.valueOf(user.getId()));
+            sharedRefs.putString(SharedRefs.USER_ROLE, user.getUserRole());
             isLoginSuccessful.setValue("success");
             return isLoginSuccessful;
         }
@@ -65,6 +66,8 @@ public class AuthRepository {
                                 sharedRefs.putString(SharedRefs.IS_VERIFIED, user.isVerified()+"");
                                 AuthToken.authToken = accessToken;
                                 isLoginSuccessful.setValue("success");
+                                sharedRefs.putString(SharedRefs.USER_ROLE, user.getUserRole());
+
                             }
                             else {
                                 isLoginSuccessful.setValue("failed");

@@ -14,6 +14,7 @@ public class SharedRefs {
     public final static String USER_EMAIL = "user_email";
     public final static String USER_ID = "user_id";
     public final static String IS_VERIFIED = "is_verified";
+    public final static String USER_ROLE = "user_role";
 
 
     public SharedRefs(Context context) {

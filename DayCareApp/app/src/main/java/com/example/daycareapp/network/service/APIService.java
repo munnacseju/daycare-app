@@ -1,10 +1,12 @@
 package com.example.daycareapp.network.service;
 
+import com.example.daycareapp.models.Caregiver;
 import com.example.daycareapp.models.User;
 import com.example.daycareapp.models.Baby;
 import com.example.daycareapp.models.Order;
 import com.example.daycareapp.network.response.AccountVerifyResponse;
 import com.example.daycareapp.network.response.AddBabyResponse;
+import com.example.daycareapp.network.response.AddCaregiverResponse;
 import com.example.daycareapp.network.response.AllBabyResponse;
 import com.example.daycareapp.network.response.AllCaregiverResponse;
 import com.example.daycareapp.network.response.AllOrderResponse;
@@ -47,4 +49,7 @@ public interface APIService {
 
     @GET("verifypin/{pin}")
     Call<AccountVerifyResponse> veryfyPin(@Path("pin") String pin);
+
+    @POST("addCaregiver")
+    Call<AddCaregiverResponse> addCaregiver(@Body Caregiver caregiver);
 }

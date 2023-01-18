@@ -29,6 +29,7 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import com.daycare.app.backend.models.User;
+import com.daycare.app.backend.models.UserRole;
 import com.daycare.app.backend.services.EmailService;
 import com.daycare.app.backend.services.UserService;
 
@@ -75,6 +76,7 @@ public class AuthController {
         int result = r.nextInt(high-low) + low;
         String verificationPin = String.valueOf(result);
 //        Random random = new Random(System.currentTimeMillis());
+        user.setUserRole(UserRole.ROLE_USER.toString());
         user.setVerificationPin(verificationPin);
         user.setIsVerified(false);
         

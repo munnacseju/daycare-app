@@ -8,6 +8,25 @@ public class User {
     private String name;
     private String verificationPin = "";
     private boolean isVerified = false;
+    private String userRole;
+
+    public User(String username, String password, String email, String name, String verificationPin, boolean isVerified, String userRole) {
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.name = name;
+        this.verificationPin = verificationPin;
+        this.isVerified = isVerified;
+        this.userRole = userRole;
+    }
+
+    public String getUserRole() {
+        return userRole;
+    }
+
+    public void setUserRole(String userRole) {
+        this.userRole = userRole;
+    }
 
     public String getUsername() {
         return username;

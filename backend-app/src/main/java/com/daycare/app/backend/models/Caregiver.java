@@ -27,9 +27,53 @@ public class Caregiver {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 	
+	public Caregiver(Long id, User user, String caregiverMotherName, String adminFeedBack, String address,
+			String imageBase64, String speciality) {
+		this.id = id;
+		this.user = user;
+		this.caregiverMotherName = caregiverMotherName;
+		this.adminFeedBack = adminFeedBack;
+		this.address = address;
+		this.imageBase64 = imageBase64;
+		this.speciality = speciality;
+	}
+
 	private String caregiverMotherName;
+
+	public String getAdminFeedBack() {
+		return adminFeedBack;
+	}
+
+	public void setAdminFeedBack(String adminFeedBack) {
+		this.adminFeedBack = adminFeedBack;
+	}
+
+	private String adminFeedBack;
 	
 	private String address;
+	public Caregiver(Long id, User user, String caregiverMotherName, String address, String imageBase64,
+			String speciality) {
+		this.id = id;
+		this.user = user;
+		this.caregiverMotherName = caregiverMotherName;
+		this.address = address;
+		this.imageBase64 = imageBase64;
+		this.speciality = speciality;
+	}
+
+	private String imageBase64;
+
+	
+
+	public Caregiver(Long id, User user, String caregiverMotherName, String address, String speciality) {
+		this.id = id;
+		this.user = user;
+		this.caregiverMotherName = caregiverMotherName;
+		this.address = address;
+		this.speciality = speciality;
+	}
+
+	private String speciality;
 	
 //    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 //    @JoinTable(name = "caregiver_rivews", joinColumns = {
@@ -37,7 +81,15 @@ public class Caregiver {
 //                    @JoinColumn(name = "review_id", nullable = false, updatable = false) })
 //    private List<Review> reviews;
 
-    public Caregiver(){}
+    public String getSpeciality() {
+		return speciality;
+	}
+
+	public void setSpeciality(String speciality) {
+		this.speciality = speciality;
+	}
+
+	public Caregiver(){}
 	
 	public Caregiver(Long id, User user, String caregiverMotherName, String address) {
 		this.id = id;
@@ -76,5 +128,13 @@ public class Caregiver {
 
 	public void setAddress(String address) {
 		this.address = address;
+	}
+
+	public String getImageBase64() {
+		return imageBase64;
+	}
+
+	public void setImageBase64(String imageBase64) {
+		this.imageBase64 = imageBase64;
 	}
 }
