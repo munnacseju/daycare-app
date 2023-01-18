@@ -11,6 +11,7 @@ import com.example.daycareapp.network.response.AllBabyResponse;
 import com.example.daycareapp.network.response.AllCaregiverResponse;
 import com.example.daycareapp.network.response.AllOrderResponse;
 import com.example.daycareapp.network.response.CreateOrderResponse;
+import com.example.daycareapp.network.response.DefaultResponse;
 import com.example.daycareapp.network.response.RegisterResponseModel;
 
 import okhttp3.ResponseBody;
@@ -52,4 +53,7 @@ public interface APIService {
 
     @POST("addCaregiver")
     Call<AddCaregiverResponse> addCaregiver(@Body Caregiver caregiver);
+
+    @POST("deleteCaregiver/{id}")
+    Call<DefaultResponse> deleteCaregiver(@Path("id") Long id);
 }

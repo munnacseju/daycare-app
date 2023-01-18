@@ -73,13 +73,13 @@ public class CaregiverController {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         Optional<User> userOptional = userService.findByEmail(email);
         User user = userOptional.get();
-        if(user.getUserRole()!=UserRole.ADMIN.toString()){
-            response.put("status", "failed!");
+        if(!user.getUserRole().equalsIgnoreCase(UserRole.ADMIN.toString())){
+            response.put("status", "failed");
             response.put("message", "You can't change caregiver");
             return response;
         }    
         caregiverService.deleteById(id);
-        response.put("status", "success!");
+        response.put("status", "success");
         response.put("message", "caregiver deleted!");
         return response;
     }

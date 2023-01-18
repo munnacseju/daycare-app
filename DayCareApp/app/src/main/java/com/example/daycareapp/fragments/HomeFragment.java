@@ -21,12 +21,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.daycareapp.R;
 import com.example.daycareapp.activities.AddCaregiverActivity;
+import com.example.daycareapp.listeners.DeleteCaregiverListener;
+import com.example.daycareapp.models.UserRole;
 import com.example.daycareapp.network.RetrofitAPIClient;
 import com.example.daycareapp.activities.FeeActivity;
 import com.example.daycareapp.adapters.CaregiverListAdapter;
 import com.example.daycareapp.listeners.CaregiverClickListener;
 import com.example.daycareapp.models.Caregiver;
 import com.example.daycareapp.network.response.AllCaregiverResponse;
+import com.example.daycareapp.network.response.DefaultResponse;
 import com.example.daycareapp.util.SharedRefs;
 
 import java.util.ArrayList;
@@ -83,7 +86,7 @@ public class HomeFragment extends Fragment {
             }
         });
         Toast.makeText(getActivity(), sharedRefs.getString(SharedRefs.USER_ROLE, "ROLE_US"), Toast.LENGTH_SHORT).show();
-        if(sharedRefs.getString(SharedRefs.USER_ROLE, "ROLE_USER").equals("ADMIN")){
+        if(sharedRefs.getString(SharedRefs.USER_ROLE, UserRole.ROLE_USER.toString()).equals(UserRole.ADMIN.toString())){
             addCaregiver.setVisibility(View.VISIBLE);
         }
         addCaregiver.setOnClickListener(new View.OnClickListener() {
@@ -125,12 +128,48 @@ public class HomeFragment extends Fragment {
         }
     };
 
+    private final DeleteCaregiverListener deleteCaregiverListener = new DeleteCaregiverListener(){
+        @Override
+        public void onClick(Caregiver caregiver){
+            deleteCareGiver(caregiver);
+        }
+    };
+
+    private void deleteCareGiver(Caregiver caregiver) {
+        {
+//        progressBar.setVisibility(View.VISIBLE);
+            Call<DefaultResponse> call = RetrofitAPIClient
+                    .getInstance()
+                    .getAPI()
+                    .deleteCaregiver(caregiver.getId());
+
+            call.enqueue(new Callback<DefaultResponse>() {
+                @Override
+                public void onResponse(Call<DefaultResponse> call, Response<DefaultResponse> response) {
+                    if (response.isSuccessful() && response.code() == 200) {
+                        String message = response.body().getStatus();
+                        Toast.makeText(getActivity(), "Successfully got data! status: "+message, Toast.LENGTH_LONG).show();
+                        getCareGiverList();
+                    } else {
+//                    progressBar.setVisibility(View.GONE);
+                        Toast.makeText(getContext(), "Some unknown problem occurred!! "+response.code(), Toast.LENGTH_LONG).show();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<DefaultResponse> call, Throwable t) {
+                    Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_LONG).show();
+                }
+            });
+        }
+    }
+
     private void updateProjectsRecycler() {
         recyclerView = getView().findViewById(R.id.projectsRecyclerView);
         layoutManager = new LinearLayoutManager(getView().getContext());
         layoutManager.setOrientation(RecyclerView.VERTICAL);
         recyclerView.setLayoutManager(layoutManager);
-        caregiverListAdapter = new CaregiverListAdapter(getContext(), caregiverList, caregiverClickListener);
+        caregiverListAdapter = new CaregiverListAdapter(getContext(), caregiverList, caregiverClickListener, deleteCaregiverListener);
         recyclerView.setAdapter(caregiverListAdapter);
     }
 

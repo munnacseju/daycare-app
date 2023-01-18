@@ -86,19 +86,19 @@ public class AddCaregiverActivity extends AppCompatActivity {
     }
 
     private boolean checkValidity(EditText caregiverMotherName, EditText address, EditText speciality, EditText adminFeedBack) {
-        if(caregiverMotherName.getText().toString()==""){
+        if(caregiverMotherName.getText().toString().equals("")){
             caregiverMotherName.setError("Enter First");
             caregiverMotherName.requestFocus();
             return false;
-        }if(address.getText().toString()==""){
+        }if(address.getText().toString().equals("")){
             address.setError("Enter address First");
             address.requestFocus();
             return false;
-        }if(speciality.getText().toString()==""){
+        }if(speciality.getText().toString().equals("")){
             speciality.setError("Enter speciality first");
             speciality.requestFocus();
             return false;
-        }if(adminFeedBack.getText().toString()==""){
+        }if(adminFeedBack.getText().toString().equals("")){
             speciality.setError("Enter admin feedback");
             speciality.requestFocus();
             return false;

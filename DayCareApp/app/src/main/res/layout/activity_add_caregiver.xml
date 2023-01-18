@@ -60,7 +60,7 @@
                             android:id="@+id/address"
                             style="@style/modifiedEditText"
                             android:hint="address"
-                            android:inputType="textPersonName"
+                            android:inputType="text"
                             android:maxLines="1"/>
 
                     </com.google.android.material.textfield.TextInputLayout>
@@ -74,7 +74,7 @@
                             android:id="@+id/speciality"
                             style="@style/modifiedEditText"
                             android:hint="speciality"
-                            android:inputType="textEmailAddress"
+                            android:inputType="text"
                             android:maxLines="1"/>
 
                     </com.google.android.material.textfield.TextInputLayout>
@@ -88,7 +88,7 @@
                             android:id="@+id/adminFeedBack"
                             style="@style/modifiedEditText"
                             android:hint="adminFeedBack"
-                            android:inputType="phone"
+                            android:inputType="text"
                             android:maxLines="1"/>
 
                     </com.google.android.material.textfield.TextInputLayout>
