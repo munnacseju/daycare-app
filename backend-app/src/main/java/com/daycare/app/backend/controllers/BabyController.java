@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.daycare.app.backend.constant.CaregiverConstant;
 import com.daycare.app.backend.models.Baby;
 import com.daycare.app.backend.models.User;
 import com.daycare.app.backend.services.BabyService;
@@ -42,7 +43,7 @@ public class BabyController {
         baby.setId(null);
         babyService.save(baby);
         response.put("baby", baby);
-        response.put("status", "okay");
+        response.put("status", CaregiverConstant.STATUS.OK);
 
         return response;
     }
@@ -55,7 +56,7 @@ public class BabyController {
         Optional<User> userOptional = userService.findByEmail(email);
         User user = userOptional.get();
         response.put("babies", babyService.findByUser(user));
-        response.put("status", "okay");
+        response.put("status", CaregiverConstant.STATUS.OK);
         // babyService.findByUser(user);
         return response;
     }
@@ -65,7 +66,8 @@ public class BabyController {
     public HashMap<String, Object> deleteBaby(@PathVariable Long id) {
         HashMap<String, Object> response = new HashMap<>();
         babyService.deleteById(id);
-        response.put("baby deleted", id);
+        response.put("status", CaregiverConstant.STATUS.OK);
+        response.put("message", "Successfully baby deleted");
         return response;
     }
 }

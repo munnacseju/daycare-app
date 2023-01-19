@@ -115,7 +115,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="6"
-            android:text="Use Other Methods"
+            android:text="About our Service"
             android:textAlignment="center"
             android:textSize="12sp"/>
 
@@ -131,15 +131,26 @@
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
           android:layout_marginTop="20dp"
+          android:orientation="vertical"
           android:gravity="center">
 
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="About Us"
+            android:id="@+id/aboutUs"
+            android:background="@drawable/bg_button"
+            ></Button>
+
         <ImageButton
+            android:visibility="gone"
             android:id="@+id/google_login_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_google_plus"/>
 
         <ImageView
+            android:visibility="gone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"

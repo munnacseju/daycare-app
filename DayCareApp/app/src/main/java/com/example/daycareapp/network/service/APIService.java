@@ -56,4 +56,7 @@ public interface APIService {
 
     @POST("deleteCaregiver/{id}")
     Call<DefaultResponse> deleteCaregiver(@Path("id") Long id);
+
+    @POST("deleteBaby/{id}")
+    Call<DefaultResponse> deleteBaby(@Path("id") Long id);
 }

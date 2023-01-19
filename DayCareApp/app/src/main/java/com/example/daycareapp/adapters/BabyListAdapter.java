@@ -5,7 +5,9 @@ import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -13,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.daycareapp.R;
 import com.example.daycareapp.listeners.BabyClickListener;
+import com.example.daycareapp.listeners.DeleteBabyClickListener;
 import com.example.daycareapp.models.Baby;
 
 import java.util.List;
@@ -21,11 +24,13 @@ public class BabyListAdapter extends RecyclerView.Adapter<BabyListViewHolder> {
     private final Context context;
     private final List<Baby> babyList;
     private final BabyClickListener babyClickListener;
+    private final DeleteBabyClickListener deleteBabyListener;
 
-    public BabyListAdapter(Context context, List<Baby> babyList, BabyClickListener babyClickListener) {
+    public BabyListAdapter(Context context, List<Baby> babyList, BabyClickListener babyClickListener, DeleteBabyClickListener deleteBabyListener) {
         this.context = context;
         this.babyList = babyList;
         this.babyClickListener = babyClickListener;
+        this.deleteBabyListener = deleteBabyListener;
     }
 
     @NonNull
@@ -39,18 +44,25 @@ public class BabyListAdapter extends RecyclerView.Adapter<BabyListViewHolder> {
     public void onBindViewHolder(@NonNull BabyListViewHolder holder, int position) {
         Baby baby = babyList.get(position);
         holder.setData(baby);
-        holder.babyNameTv.setOnClickListener(new View.OnClickListener() {
+        holder.babyListLinearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 babyClickListener.onClick(baby);
             }
         });
 
-        holder.babyNameTv.setOnLongClickListener(new View.OnLongClickListener() {
+        holder.babyListLinearLayout.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
                 babyClickListener.onLongClick(baby, holder.babyNameTv);
                 return true;
+            }
+        });
+
+        holder.deleteBaby.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                deleteBabyListener.onClick(baby);
             }
         });
     }
@@ -67,12 +79,17 @@ class BabyListViewHolder extends RecyclerView.ViewHolder {
     public TextView babyNameTv;
     public TextView babyLocationTv;
     public ImageView babyImageView;
+    public Button deleteBaby;
+    public LinearLayout babyListLinearLayout;
     public BabyListViewHolder(@NonNull View itemView, Context context) {
         super(itemView);
         this.context = context;
         babyNameTv = itemView.findViewById(R.id.babyName);
         babyLocationTv = itemView.findViewById(R.id.babyLocation);
         babyImageView = itemView.findViewById(R.id.babyImage);
+        deleteBaby = itemView.findViewById(R.id.deleteBaby);
+        babyListLinearLayout = itemView.findViewById(R.id.babyListLinearLayoutId);
+
     }
 
     public void setData(Baby baby) {

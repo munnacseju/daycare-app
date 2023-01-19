@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.daycare.app.backend.constant.CaregiverConstant;
 import com.daycare.app.backend.models.Caregiver;
 import com.daycare.app.backend.models.User;
 import com.daycare.app.backend.models.UserRole;
@@ -40,14 +41,14 @@ public class CaregiverController {
         User user = userOptional.get();
         if(!user.getUserRole().equalsIgnoreCase(UserRole.ADMIN.toString())){
             System.out.println(user.getUserRole() + " " + UserRole.ADMIN.toString());
-            response.put("status", "failed");
+            response.put("status", CaregiverConstant.STATUS.NOT_OK);
             response.put("message", "You can't change caregiver");
             response.put("caregiver", caregiver);
             return response;
         }         
         caregiver.setUser(user);
         caregiverService.save(caregiver);
-        response.put("status", "success");
+        response.put("status", CaregiverConstant.STATUS.OK);
         response.put("message", "Added Successfully");
         response.put("caregiver", caregiver);
         return response;
@@ -60,7 +61,7 @@ public class CaregiverController {
         // String email = SecurityContextHolder.getContext().getAuthentication().getName();
         // Optional<User> userOptional = userService.findByEmail(email);
         // User user = userOptional.get();
-        response.put("status", "okay");
+        response.put("status", CaregiverConstant.STATUS.OK);
         response.put("caregivers", caregiverService.findAll());
         // caregiverService.findByUser(user);
         return response;
@@ -74,12 +75,12 @@ public class CaregiverController {
         Optional<User> userOptional = userService.findByEmail(email);
         User user = userOptional.get();
         if(!user.getUserRole().equalsIgnoreCase(UserRole.ADMIN.toString())){
-            response.put("status", "failed");
+            response.put("status", CaregiverConstant.STATUS.NOT_OK);
             response.put("message", "You can't change caregiver");
             return response;
         }    
         caregiverService.deleteById(id);
-        response.put("status", "success");
+        response.put("status", CaregiverConstant.STATUS.OK);
         response.put("message", "caregiver deleted!");
         return response;
     }

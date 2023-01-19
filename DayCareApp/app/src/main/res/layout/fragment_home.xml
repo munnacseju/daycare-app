@@ -45,6 +45,7 @@
                     android:background="@drawable/bg_button"
                     android:text="Filter"
                     android:textAlignment="center"
+                    android:visibility="gone"
                     android:textAllCaps="false"></Button>
 
                 <Button

@@ -9,6 +9,7 @@
     android:layout_marginEnd="15dp"
     android:layout_marginBottom="15dp"
     android:background="@drawable/bg_search"
+    android:id="@+id/babyListLinearLayoutId"
     android:elevation="50dp">
 
     <LinearLayout
@@ -57,14 +58,16 @@
                 android:textColor="@color/black_soft"
                 android:textSize="14sp" />
 
-<!--            <Button-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="40dp"-->
-<!--                android:layout_gravity="end"-->
-<!--                android:layout_marginEnd="20dp"-->
-<!--                android:background="@drawable/bg_button"-->
-<!--                android:text="Book Now"-->
-<!--                android:textAllCaps="false" />-->
+            <Button
+                android:id="@+id/deleteBaby"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_gravity="end"
+                android:layout_marginEnd="20dp"
+                android:background="@drawable/bg_button"
+                android:text="Delete Baby"
+                android:textColor="#FF1100"
+                android:textAllCaps="false" />
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

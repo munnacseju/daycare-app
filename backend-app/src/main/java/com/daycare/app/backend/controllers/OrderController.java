@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.daycare.app.backend.constant.CaregiverConstant;
 import com.daycare.app.backend.models.Order;
 import com.daycare.app.backend.models.User;
 import com.daycare.app.backend.services.OrderService;
@@ -51,7 +52,7 @@ public class OrderController {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         Optional<User> userOptional = userService.findByEmail(email);
         User user = userOptional.get();
-        response.put("status", "okay");
+        response.put("status", CaregiverConstant.STATUS.OK);
         response.put("orders", orderService.findByUser(user));
         // orderService.findByUser(user);
         return response;

@@ -28,6 +28,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
+import com.daycare.app.backend.constant.CaregiverConstant;
 import com.daycare.app.backend.models.User;
 import com.daycare.app.backend.models.UserRole;
 import com.daycare.app.backend.services.EmailService;
@@ -64,7 +65,7 @@ public class AuthController {
         HashMap<String, Object> response = new HashMap<>();
         Optional<User> existsUser = userService.findByEmail(user.getEmail());
         if (existsUser.isPresent()) {
-            response.put("status", "EMAIL EXISTS");
+            response.put("status", CaregiverConstant.STATUS.NOT_OK);
             response.put("error", "User is already registered!");
             return response;
         }
@@ -81,7 +82,7 @@ public class AuthController {
         user.setIsVerified(false);
         
         userService.save(user);
-        response.put("status", "OK");
+        response.put("status", CaregiverConstant.STATUS.OK);
         response.put("message", "Successfully registered!");
         emailService.sendSimpleMessage(user.getEmail(), "Daycare account verification code", "Hello, Your Daycare account varification code is "+verificationPin);
         System.out.println("Mail send "+user.getEmail());
@@ -111,7 +112,7 @@ public class AuthController {
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
                 .signWith(SignatureAlgorithm.HS512, SECRET).compact();
         response.put("access_token", TOKEN_PREFIX + token);
-        response.put("status", "OK");
+        response.put("status", CaregiverConstant.STATUS.OK);
         return response;
     }
 
@@ -122,7 +123,7 @@ public class AuthController {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         Optional<User> userOptional = userService.findByEmail(email);
         User user = userOptional.get();
-        response.put("status", "OK");
+        response.put("status", CaregiverConstant.STATUS.OK);
         response.put("data", user);
         return response;
     }
@@ -131,7 +132,7 @@ public class AuthController {
     @ExceptionHandler(value = { HttpClientErrorException.class })
     HashMap<String, Object> handleMethodArgumentNotValid(HttpClientErrorException ex) {
         HashMap<String, Object> response = new HashMap<>();
-        response.put("status", "NOT_OK");
+        response.put("status", CaregiverConstant.STATUS.OK);
         response.put("description", "this is not a valid token from google!");
         return response;
     }
@@ -146,10 +147,10 @@ public class AuthController {
         if(pin.equals(user.getVerificationPin())) {
         	user.setIsVerified(true);
             userService.save(user);
-            response.put("status", "verified");
+            response.put("status", CaregiverConstant.STATUS.OK);
             System.out.println("user virification updated");
         }else {
-        	response.put("status", "Not verified");
+        	response.put("status", CaregiverConstant.STATUS.NOT_OK);
             System.out.println("code not equal" + "pin " + pin);
             return response;
         }

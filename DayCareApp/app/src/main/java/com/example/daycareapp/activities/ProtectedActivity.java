@@ -72,7 +72,7 @@ public class ProtectedActivity extends AppCompatActivity {
         userNameTextView = navigation_view.getHeaderView(0).findViewById(R.id.user_name);
         userEmailTextView = navigation_view.getHeaderView(0).findViewById(R.id.user_email);
 
-        userNameTextView.setText(sharedRefs.getString(sharedRefs.USER_NAME, "user name not found"));
+        userNameTextView.setText(sharedRefs.getString(sharedRefs.USER_NAME, "user name not found")+" ("+sharedRefs.getString(SharedRefs.USER_ROLE, "ROLE_US")+")");
         userEmailTextView.setText(sharedRefs.getString(sharedRefs.USER_EMAIL, "user email not found"));
         AuthToken.authToken = sharedRefs.getString(SharedRefs.ACCESS_TOKEN, "");
         boolean isAccountVerified = Boolean.parseBoolean(sharedRefs.getString(sharedRefs.IS_VERIFIED, "false"));

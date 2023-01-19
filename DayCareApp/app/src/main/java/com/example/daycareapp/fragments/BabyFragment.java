@@ -20,12 +20,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.daycareapp.R;
+import com.example.daycareapp.activities.AddBabyActivity;
+import com.example.daycareapp.listeners.DeleteBabyClickListener;
 import com.example.daycareapp.network.RetrofitAPIClient;
-import com.example.daycareapp.activities.FeeActivity;
 import com.example.daycareapp.adapters.BabyListAdapter;
 import com.example.daycareapp.listeners.BabyClickListener;
 import com.example.daycareapp.models.Baby;
 import com.example.daycareapp.network.response.AllBabyResponse;
+import com.example.daycareapp.network.response.DefaultResponse;
 import com.example.daycareapp.util.SharedRefs;
 
 import java.util.ArrayList;
@@ -44,7 +46,7 @@ public class BabyFragment extends Fragment {
     private SharedRefs sharedRefs;
     private Dialog dialog;
     private Button filterButton;
-//    Button addBaby;
+    Button addBaby;
 
     public BabyFragment(String demoMessage) {
         this.demoMessage = demoMessage;
@@ -60,7 +62,7 @@ public class BabyFragment extends Fragment {
         super.onCreate(savedInstanceState);
         babyList = new ArrayList<>();
 
-        getCareGiverList();
+        getBabyList();
 
         dialog = new Dialog(getContext());
     }
@@ -68,14 +70,14 @@ public class BabyFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_baby, container, false);
-//        addBaby = view.findViewById(R.id.addBaby);
-//        addBaby.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent = new Intent(getContext(), AddBabyActivity.class);
-//                startActivity(intent);
-//            }
-//        });
+        addBaby = view.findViewById(R.id.addBaby);
+        addBaby.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getContext(), AddBabyActivity.class);
+                startActivity(intent);
+            }
+        });
 
         return view;
     }
@@ -96,11 +98,11 @@ public class BabyFragment extends Fragment {
     private final BabyClickListener babyClickListener = new BabyClickListener() {
         @Override
         public void onClick(Baby baby) {
-            Intent intent = new Intent(getContext(), FeeActivity.class);
-            intent.putExtra("name", baby.getBabyName());
-            intent.putExtra("location", baby.getAddress());
-            intent.putExtra("img", "img1");
-            startActivity(intent);
+//            Intent intent = new Intent(getContext(), FeeActivity.class);
+//            intent.putExtra("name", baby.getBabyName());
+//            intent.putExtra("location", baby.getAddress());
+//            intent.putExtra("img", "img1");
+//            startActivity(intent);
 //            getActivity().finish();
             Toast.makeText(getContext(), "selected: " + baby.getBabyName(), Toast.LENGTH_SHORT).show();
         }
@@ -112,7 +114,14 @@ public class BabyFragment extends Fragment {
         }
     };
 
-    private void getCareGiverList() {
+    private final DeleteBabyClickListener deleteBabyListener = new DeleteBabyClickListener() {
+        @Override
+        public void onClick(Baby baby) {
+            deleteBaby(baby);
+        }
+    };
+
+    private void getBabyList() {
 //        progressBar.setVisibility(View.VISIBLE);
         Call<AllBabyResponse> call = RetrofitAPIClient
                 .getInstance()
@@ -126,8 +135,6 @@ public class BabyFragment extends Fragment {
                     String message = response.body().getStatus();
                     Toast.makeText(getActivity(), "Successfully got data! status: "+message, Toast.LENGTH_LONG).show();
                     babyList = response.body().getBabies();
-                    Toast.makeText(getContext(), "list size: " + babyList.size(), Toast.LENGTH_SHORT).show();
-
                     updateProjectsRecycler();
 
 
@@ -149,7 +156,7 @@ public class BabyFragment extends Fragment {
         layoutManager = new LinearLayoutManager(getView().getContext());
         layoutManager.setOrientation(RecyclerView.VERTICAL);
         recyclerView.setLayoutManager(layoutManager);
-        babyListAdapter = new BabyListAdapter(getContext(), babyList, babyClickListener);
+        babyListAdapter = new BabyListAdapter(getContext(), babyList, babyClickListener, deleteBabyListener);
         recyclerView.setAdapter(babyListAdapter);
     }
 
@@ -167,5 +174,35 @@ public class BabyFragment extends Fragment {
         });
         dialog.show();
     }
+
+    private void deleteBaby(Baby baby) {
+        {
+//        progressBar.setVisibility(View.VISIBLE);
+            Call<DefaultResponse> call = RetrofitAPIClient
+                    .getInstance()
+                    .getAPI()
+                    .deleteBaby(baby.getId());
+
+            call.enqueue(new Callback<DefaultResponse>() {
+                @Override
+                public void onResponse(Call<DefaultResponse> call, Response<DefaultResponse> response) {
+                    if (response.isSuccessful() && response.code() == 200) {
+                        DefaultResponse defaultResponse = response.body();
+                        Toast.makeText(getContext(), defaultResponse.getMessage() + ", Status: " + defaultResponse.getStatus(), Toast.LENGTH_LONG).show();
+                        getBabyList();
+                    } else {
+//                    progressBar.setVisibility(View.GONE);
+                        Toast.makeText(getContext(), "Some unknown problem occurred!! "+response.code(), Toast.LENGTH_LONG).show();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<DefaultResponse> call, Throwable t) {
+                    Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_LONG).show();
+                }
+            });
+        }
+    }
+
 
 }

@@ -9,10 +9,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.daycareapp.constants.CaregiverConstant;
 import com.example.daycareapp.R;
 import com.example.daycareapp.models.Caregiver;
 import com.example.daycareapp.network.RetrofitAPIClient;
-import com.example.daycareapp.network.response.AddBabyResponse;
 import com.example.daycareapp.network.response.AddCaregiverResponse;
 
 import retrofit2.Call;
@@ -64,16 +64,10 @@ public class AddCaregiverActivity extends AppCompatActivity {
             public void onResponse(Call<AddCaregiverResponse> call, Response<AddCaregiverResponse> response) {
                 if (response.isSuccessful() && response.code() == 200) {
                     AddCaregiverResponse addCaregiverResponse = response.body();
-                    if (addCaregiverResponse.getStatus().equals("success")){
-                        Toast.makeText(getApplicationContext(), "Successfully added caregiver! ", Toast.LENGTH_LONG).show();
-                    }else{
-                        Toast.makeText(getApplicationContext(), "You can't add caregiver", Toast.LENGTH_LONG).show();
-
-                    }
+                    Toast.makeText(getApplicationContext(), addCaregiverResponse.getMessage() + "Status: " + addCaregiverResponse.getStatus() , Toast.LENGTH_LONG).show();
                     Intent intent = new Intent(getApplicationContext(), ProtectedActivity.class);
                     startActivity(intent);
                 } else {
-//                    progressBar.setVisibility(View.GONE);
                     Toast.makeText(getApplicationContext(), "Some unknown problem occurred!! "+response.code(), Toast.LENGTH_LONG).show();
                 }
             }

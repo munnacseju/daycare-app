@@ -40,7 +40,7 @@ import retrofit2.Response;
 public class LoginActivity extends AppCompatActivity {
     private static final String TAG = "LoginActivity";
     private ImageButton googleLoginButton;
-    private Button loginButton;
+    private Button loginButton, aboutUs;
     private ActivityResultLauncher<Intent> googleLoginActivityResultLauncher;
     private AuthViewModel authViewModel;
     SharedRefs sharedRefs;
@@ -51,7 +51,15 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         sharedRefs = new SharedRefs(getApplicationContext());
-
+        aboutUs = findViewById(R.id.aboutUs);
+        aboutUs.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), AboutUsActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
         authViewModel = new ViewModelProvider(this).get(AuthViewModel.class);
 
         googleLoginActivityResultLauncher = registerForActivityResult(

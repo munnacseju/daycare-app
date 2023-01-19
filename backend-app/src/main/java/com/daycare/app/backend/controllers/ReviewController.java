@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.daycare.app.backend.constant.CaregiverConstant;
 import com.daycare.app.backend.models.Review;
 import com.daycare.app.backend.models.User;
 import com.daycare.app.backend.services.ReviewService;
@@ -63,7 +64,8 @@ public class ReviewController {
     public HashMap<String, Object> deleteReview(@PathVariable Long id) {
         HashMap<String, Object> response = new HashMap<>();
         reviewService.deleteById(id);
-        response.put("review deleted", id);
+        response.put("status", CaregiverConstant.STATUS.OK);
+        response.put("message", "Successfully deleted review");
         return response;
     }
 }

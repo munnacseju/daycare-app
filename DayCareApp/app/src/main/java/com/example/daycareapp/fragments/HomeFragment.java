@@ -85,7 +85,6 @@ public class HomeFragment extends Fragment {
                 callForFilterDialog();
             }
         });
-        Toast.makeText(getActivity(), sharedRefs.getString(SharedRefs.USER_ROLE, "ROLE_US"), Toast.LENGTH_SHORT).show();
         if(sharedRefs.getString(SharedRefs.USER_ROLE, UserRole.ROLE_USER.toString()).equals(UserRole.ADMIN.toString())){
             addCaregiver.setVisibility(View.VISIBLE);
         }
@@ -147,8 +146,8 @@ public class HomeFragment extends Fragment {
                 @Override
                 public void onResponse(Call<DefaultResponse> call, Response<DefaultResponse> response) {
                     if (response.isSuccessful() && response.code() == 200) {
-                        String message = response.body().getStatus();
-                        Toast.makeText(getActivity(), "Successfully got data! status: "+message, Toast.LENGTH_LONG).show();
+                        DefaultResponse defaultResponse = response.body();
+                        Toast.makeText(getContext(), defaultResponse.getMessage() + ", Status: " + defaultResponse.getStatus(), Toast.LENGTH_LONG).show();
                         getCareGiverList();
                     } else {
 //                    progressBar.setVisibility(View.GONE);
@@ -240,7 +239,6 @@ public class HomeFragment extends Fragment {
                     String message = response.body().getStatus();
                     Toast.makeText(getActivity(), "Successfully got data! status: "+message, Toast.LENGTH_LONG).show();
                     caregiverList = response.body().getCaregivers();
-                    Toast.makeText(getContext(), "list size: " + caregiverList.size(), Toast.LENGTH_SHORT).show();
 
                     updateProjectsRecycler();
 

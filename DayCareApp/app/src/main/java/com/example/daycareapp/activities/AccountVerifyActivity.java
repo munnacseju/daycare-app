@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.daycareapp.constants.CaregiverConstant;
 import com.example.daycareapp.R;
 import com.example.daycareapp.network.RetrofitAPIClient;
 import com.example.daycareapp.models.User;
@@ -63,7 +64,7 @@ public class AccountVerifyActivity extends AppCompatActivity {
                     System.out.println(response.message());
                     AccountVerifyResponse accountVerifyResponse = response.body();
                     User user = accountVerifyResponse.getData();
-                    if(accountVerifyResponse.getStatus().equals("verified")){
+                    if(accountVerifyResponse.getStatus().equals(CaregiverConstant.STATUS.OK)){
                         sharedRefs.putString(SharedRefs.IS_VERIFIED, user.isVerified()+"");
                         Intent intent = new Intent(getApplicationContext(), ProtectedActivity.class);
                         startActivity(intent);

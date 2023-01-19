@@ -24,6 +24,7 @@ public class FeeActivity extends AppCompatActivity {
     TextView nametv, locationtv, feetv, ratingtv;
     ImageView imageView;
     Button addBabyButton, seeReviewBt;
+    Long caregiverId = -1L;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,13 +43,14 @@ public class FeeActivity extends AppCompatActivity {
         String name = this.getIntent().getStringExtra("name");
         String location = this.getIntent().getStringExtra("location");
         String imageText = this.getIntent().getStringExtra("img");
+        caregiverId = this.getIntent().getLongExtra("caregiver_id", -1);
 
         Toast.makeText(this, "img: " +imageText, Toast.LENGTH_SHORT).show();
 
         nametv.setText(name);
         locationtv.setText(location);
         feetv.setText("Fee: 100tk");
-        ratingtv.setText("Rating: *****");
+        ratingtv.setText("Specialit: Singer");
         int imageId = getResources().getIdentifier(PACKAGE_NAME + ":drawable/" + imageText, null, null);
 //        imageView.setImageBitmap(BitmapFactory.decodeResource(getResources(), imageId));
 
@@ -65,6 +67,7 @@ public class FeeActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), BabyActivity.class);
+                intent.putExtra("caregiver_id", caregiverId);
                 finish();
                 startActivity(intent);
                 Toast.makeText(FeeActivity.this, "Clicked for book now", Toast.LENGTH_SHORT).show();
