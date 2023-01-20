@@ -10,4 +10,5 @@ import com.daycare.app.backend.models.User;
 public interface ReviewRepository extends CrudRepository <Review, Long> {
     Optional<Review> findById(Long id);
     Iterable<Review> findByUser(User user);
+    Iterable<Review> findByCaregiverId(Long caregiverId);
 }

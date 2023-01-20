@@ -12,13 +12,15 @@ import android.widget.Toast;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.daycareapp.R;
-import com.example.daycareapp.models.ReviewListData;
+import com.example.daycareapp.models.Review;
+
+import java.util.List;
 
 public class ReviewsListAdapter extends RecyclerView.Adapter<ReviewsListAdapter.ViewHolder>{
-    private ReviewListData[] listdata;
+    private List<Review> listdata;
 
     // RecyclerView recyclerView;
-    public ReviewsListAdapter(ReviewListData[] listdata) {
+    public ReviewsListAdapter(List<Review> listdata) {
         this.listdata = listdata;
     }
     @Override
@@ -31,14 +33,15 @@ public class ReviewsListAdapter extends RecyclerView.Adapter<ReviewsListAdapter.
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        final ReviewListData myListData = listdata[position];
-        holder.reviewerNameTextView.setText(listdata[position].getReviewerName());
-        holder.imageView.setImageResource(listdata[position].getImgId());
-        holder.reviewTextView.setText(listdata[position].getReview());
+
+        final Review myListData = listdata.get(position);
+        holder.reviewerNameTextView.setText(listdata.get(position).getTitle());
+//        holder.imageView.setImageResource(listdata.get(position).getImgId());
+        holder.reviewTextView.setText(listdata.get(position).getBody());
         holder.relativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(view.getContext(),"Hey, you clicked on : "+myListData.getReviewerName(),Toast.LENGTH_LONG).show();
+                Toast.makeText(view.getContext(),"Hey, you clicked on : "+myListData.getTitle() + ",  " + getItemCount(),Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -46,7 +49,10 @@ public class ReviewsListAdapter extends RecyclerView.Adapter<ReviewsListAdapter.
 
     @Override
     public int getItemCount() {
-        return listdata.length;
+        if(listdata==null){
+            return 0;
+        }
+        return listdata.size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

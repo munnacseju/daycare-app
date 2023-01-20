@@ -9,5 +9,6 @@ public interface ReviewService {
 	void save(Review review);
 	Optional<Review> findById(Long id);
     Iterable<Review> findByUser(User user);
+	Iterable<Review> findByCaregiverId(Long caregiverId);
 	void deleteById(Long id);
 }

@@ -1,5 +1,6 @@
 package com.example.daycareapp.activities;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -10,6 +11,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -58,7 +60,7 @@ public class ProtectedActivity extends AppCompatActivity {
             }
         });
         sharedRefs = new SharedRefs(getApplicationContext());
-        setSupportActionBar(findViewById(R.id.toolbar));
+//        setSupportActionBar(findViewById(R.id.toolbar));
 
         navigation_view = findViewById(R.id.navigation_view);
         navigation_view.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
@@ -72,7 +74,7 @@ public class ProtectedActivity extends AppCompatActivity {
         userNameTextView = navigation_view.getHeaderView(0).findViewById(R.id.user_name);
         userEmailTextView = navigation_view.getHeaderView(0).findViewById(R.id.user_email);
 
-        userNameTextView.setText(sharedRefs.getString(sharedRefs.USER_NAME, "user name not found")+" ("+sharedRefs.getString(SharedRefs.USER_ROLE, "ROLE_US")+")");
+        userNameTextView.setText(sharedRefs.getString(sharedRefs.USER_NAME, "user name not found")+" ("+sharedRefs.getString(SharedRefs.USER_ROLE, "ROLE_USER")+")");
         userEmailTextView.setText(sharedRefs.getString(sharedRefs.USER_EMAIL, "user email not found"));
         AuthToken.authToken = sharedRefs.getString(SharedRefs.ACCESS_TOKEN, "");
         boolean isAccountVerified = Boolean.parseBoolean(sharedRefs.getString(sharedRefs.IS_VERIFIED, "false"));
@@ -139,6 +141,9 @@ public class ProtectedActivity extends AppCompatActivity {
             drawer.openDrawer(GravityCompat.START);
             return true;
         }
+//        if(item.getItemId()==android.R.id.home){
+//            alertDialogCall();
+//        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -159,5 +164,27 @@ public class ProtectedActivity extends AppCompatActivity {
         Toast.makeText(this, "Successfully Logged Out!", Toast.LENGTH_SHORT).show();
         startActivity(new Intent(this, LoginActivity.class));
         finish();
+    }
+
+    public void alertDialogCall(){
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setMessage("Do you want to finish the Olympaid?")
+                .setCancelable(false)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        finish();
+                    }
+                }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.cancel();
+                    }
+                });
+
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.setTitle("Exit!");
+//        alertDialog.setIcon(R.drawable.math_olympaid_logo);
+        alertDialog.show();
     }
 }

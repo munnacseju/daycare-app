@@ -22,6 +22,13 @@
             android:textSize="25dp"
             android:textColor="#000"></TextView>
 
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Add Review"
+            android:background="@drawable/bg_button"
+            android:id="@+id/addReviewBt"></Button>
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/reviewerRecyclerView"
             android:layout_width="match_parent"

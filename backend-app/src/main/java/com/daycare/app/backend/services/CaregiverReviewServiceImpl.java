@@ -38,5 +38,10 @@ public class CaregiverReviewServiceImpl implements ReviewService {
     public void deleteById(Long id) {
         reviewRepository.deleteById(id);
     }
+
+    @Override
+    public Iterable<Review> findByCaregiverId(Long caregiverId) {
+        return reviewRepository.findByCaregiverId(caregiverId);
+    }
     
 }

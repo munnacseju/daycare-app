@@ -1,6 +1,7 @@
 package com.example.daycareapp.network.service;
 
 import com.example.daycareapp.models.Caregiver;
+import com.example.daycareapp.models.Review;
 import com.example.daycareapp.models.User;
 import com.example.daycareapp.models.Baby;
 import com.example.daycareapp.models.Order;
@@ -10,6 +11,7 @@ import com.example.daycareapp.network.response.AddCaregiverResponse;
 import com.example.daycareapp.network.response.AllBabyResponse;
 import com.example.daycareapp.network.response.AllCaregiverResponse;
 import com.example.daycareapp.network.response.AllOrderResponse;
+import com.example.daycareapp.network.response.AllReviewResponse;
 import com.example.daycareapp.network.response.CreateOrderResponse;
 import com.example.daycareapp.network.response.DefaultResponse;
 import com.example.daycareapp.network.response.RegisterResponseModel;
@@ -22,17 +24,6 @@ import retrofit2.http.POST;
 import retrofit2.http.Path;
 
 public interface APIService {
-
-//    @POST("register")
-//    Call<RegisterResponseModel> createUser (
-//            @Body User user
-//    );
-//
-//    @POST("login")
-//    Call<ResponseBody> checkUser (
-//            @Body User user
-//    );
-
     @GET("findAllCaregiver")
     Call<AllCaregiverResponse> findAllCaregiver();
 
@@ -59,4 +50,10 @@ public interface APIService {
 
     @POST("deleteBaby/{id}")
     Call<DefaultResponse> deleteBaby(@Path("id") Long id);
+
+    @GET("findAllReviewCaregiver/{id}")
+    Call<AllReviewResponse> findAllReviewByCaregiverId(@Path("id") Long id);
+
+    @POST("addReview")
+    Call<DefaultResponse> addReview(@Body Review review);
 }

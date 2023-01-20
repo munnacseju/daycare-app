@@ -1,5 +1,6 @@
 package com.example.daycareapp.activities;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -11,6 +12,7 @@ import android.graphics.RectF;
 import android.graphics.Shader;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -31,6 +33,8 @@ public class FeeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fee);
         String PACKAGE_NAME = getPackageName();
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.bg_button);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         nametv = findViewById(R.id.nametvid);
         locationtv = findViewById(R.id.locationtvid);
@@ -78,10 +82,20 @@ public class FeeActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), ReviewActivity.class);
+                intent.putExtra("caregiver_id", caregiverId);
                 finish();
                 startActivity(intent);
             }
         });
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(item.getItemId()==android.R.id.home){
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 

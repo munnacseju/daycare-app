@@ -60,11 +60,11 @@ public class Review {
 		this.caregiverId = caregiverId;
 	}
 
-	public String getTitile() {
+	public String getTitle() {
 		return title;
 	}
 
-	public void setTitile(String title) {
+	public void setTitle(String title) {
 		this.title = title;
 	}
 
@@ -84,7 +84,7 @@ public class Review {
 		this.time = time;
 	}
 
-	public Review(Long id, User user, Long caregiverId, @NotNull String title, @NotNull String body,
+	public Review(Long id, User user, Long caregiverId,  String title,  String body,
 			Timestamp time) {
 		super();
 		this.id = id;

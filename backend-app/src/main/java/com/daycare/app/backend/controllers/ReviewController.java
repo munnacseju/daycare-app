@@ -23,6 +23,7 @@ import com.daycare.app.backend.services.UserService;
 public class ReviewController {
     public static final String ADD_REVIEW = "/addReview";
     public static final String FIND_REVIEW_BY_ID = "/findReview/{id}";
+    public static final String FIND_ALL_REVIEW_BY_CAREGIVER = "/findAllReviewCaregiver/{id}";
     public static final String FIND_ALL_REVIEW_BY_USER = "/findAllReview";
     public static final String DELETE_REVIEW = "/deleteReview/{id}";
 
@@ -43,19 +44,35 @@ public class ReviewController {
         User user = userOptional.get();         
         review.setUser(user);
         reviewService.save(review);
-        response.put("review", review);
+        response.put("status", CaregiverConstant.STATUS.OK);
+        response.put("message", "Successfully added review");
         return response;
     }
 
     @RequestMapping(value = FIND_ALL_REVIEW_BY_USER, method = RequestMethod.GET)
     @ResponseBody
-    public HashMap<String, Object> findBabiesByUser() {
+    public HashMap<String, Object> findreviewsByUser() {
         HashMap<String, Object> response = new HashMap<>();
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         Optional<User> userOptional = userService.findByEmail(email);
         User user = userOptional.get();
-        response.put("babies", reviewService.findByUser(user));
+        response.put("reviews", reviewService.findByUser(user));
         // reviewService.findByUser(user);
+        return response;
+    }
+
+    @RequestMapping(value = FIND_ALL_REVIEW_BY_CAREGIVER, method = RequestMethod.GET)
+    @ResponseBody
+    public HashMap<String, Object> findreviewsByCaregiverId(@PathVariable Long id) {
+        HashMap<String, Object> response = new HashMap<>();
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        Optional<User> userOptional = userService.findByEmail(email);
+        // User user = userOptional.get();
+        response.put("id", id);
+        
+        response.put("reviews", reviewService.findByCaregiverId(id));
+        response.put("status", CaregiverConstant.STATUS.OK);
+        response.put("message", "Successfully get all reviews");
         return response;
     }
 
