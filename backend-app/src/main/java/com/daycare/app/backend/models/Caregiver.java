@@ -1,17 +1,11 @@
 package com.daycare.app.backend.models;
 
-import java.util.List;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -26,11 +20,25 @@ public class Caregiver {
 	@ManyToOne(optional = false)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
+
+	private Boolean isAvailable = true;
+	private String caregiverMotherName;
+
+	private String adminFeedBack;
 	
-	public Caregiver(Long id, User user, String caregiverMotherName, String adminFeedBack, String address,
-			String imageBase64, String speciality) {
+	private String address;
+
+	private String imageBase64;
+
+	private String speciality;
+
+	public Caregiver(){}
+	
+	public Caregiver(Long id, User user, Boolean isAvailable, String caregiverMotherName, String adminFeedBack,
+			String address, String imageBase64, String speciality) {
 		this.id = id;
 		this.user = user;
+		this.isAvailable = isAvailable;
 		this.caregiverMotherName = caregiverMotherName;
 		this.adminFeedBack = adminFeedBack;
 		this.address = address;
@@ -38,7 +46,6 @@ public class Caregiver {
 		this.speciality = speciality;
 	}
 
-	private String caregiverMotherName;
 
 	public String getAdminFeedBack() {
 		return adminFeedBack;
@@ -48,55 +55,13 @@ public class Caregiver {
 		this.adminFeedBack = adminFeedBack;
 	}
 
-	private String adminFeedBack;
-	
-	private String address;
-	public Caregiver(Long id, User user, String caregiverMotherName, String address, String imageBase64,
-			String speciality) {
-		this.id = id;
-		this.user = user;
-		this.caregiverMotherName = caregiverMotherName;
-		this.address = address;
-		this.imageBase64 = imageBase64;
-		this.speciality = speciality;
-	}
-
-	private String imageBase64;
-
-	
-
-	public Caregiver(Long id, User user, String caregiverMotherName, String address, String speciality) {
-		this.id = id;
-		this.user = user;
-		this.caregiverMotherName = caregiverMotherName;
-		this.address = address;
-		this.speciality = speciality;
-	}
-
-	private String speciality;
-	
-//    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-//    @JoinTable(name = "caregiver_rivews", joinColumns = {
-//            @JoinColumn(name = "caregiver_id", nullable = false, updatable = false) }, inverseJoinColumns = {
-//                    @JoinColumn(name = "review_id", nullable = false, updatable = false) })
-//    private List<Review> reviews;
-
     public String getSpeciality() {
 		return speciality;
 	}
 
 	public void setSpeciality(String speciality) {
 		this.speciality = speciality;
-	}
-
-	public Caregiver(){}
-	
-	public Caregiver(Long id, User user, String caregiverMotherName, String address) {
-		this.id = id;
-		this.user = user;
-		this.caregiverMotherName = caregiverMotherName;
-		this.address = address;
-	}
+	}	
 
 	public Long getId() {
 		return id;
@@ -136,5 +101,13 @@ public class Caregiver {
 
 	public void setImageBase64(String imageBase64) {
 		this.imageBase64 = imageBase64;
+	}
+
+	public Boolean getIsAvailable() {
+		return isAvailable;
+	}
+
+	public void setIsAvailable(Boolean isAvailable) {
+		this.isAvailable = isAvailable;
 	}
 }

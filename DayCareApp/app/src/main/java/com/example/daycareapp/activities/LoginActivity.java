@@ -108,6 +108,7 @@ public class LoginActivity extends AppCompatActivity {
                 } else if (password == null || password.length() == 0) {
                     Toast.makeText(LoginActivity.this, "Invalid Password", Toast.LENGTH_SHORT).show();
                 } else {
+//                    Toast.makeText(LoginActivity.this, "Password : "+ password, Toast.LENGTH_SHORT).show();
                     loginWithForm(email, password);
                 }
             }

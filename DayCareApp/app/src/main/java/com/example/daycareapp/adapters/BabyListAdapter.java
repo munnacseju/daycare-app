@@ -81,6 +81,12 @@ class BabyListViewHolder extends RecyclerView.ViewHolder {
     public ImageView babyImageView;
     public Button deleteBaby;
     public LinearLayout babyListLinearLayout;
+    public TextView babyMotherName;
+    public TextView babyFatherName;
+    public TextView babyAge;
+    public TextView babyFeforiteFood;
+    public TextView babyIsChecked;
+    public  TextView babyContact;
     public BabyListViewHolder(@NonNull View itemView, Context context) {
         super(itemView);
         this.context = context;
@@ -89,12 +95,24 @@ class BabyListViewHolder extends RecyclerView.ViewHolder {
         babyImageView = itemView.findViewById(R.id.babyImage);
         deleteBaby = itemView.findViewById(R.id.deleteBaby);
         babyListLinearLayout = itemView.findViewById(R.id.babyListLinearLayoutId);
-
+        babyMotherName = itemView.findViewById(R.id.babyMotherName);
+        babyFatherName = itemView.findViewById(R.id.babyFatherName);
+        babyAge = itemView.findViewById(R.id.babyAge);
+        babyFeforiteFood = itemView.findViewById(R.id.babyFevoriteFood);
+        babyIsChecked = itemView.findViewById(R.id.babyIsChecked);
+        babyContact = itemView.findViewById(R.id.babyContactNumber);
     }
 
     public void setData(Baby baby) {
         babyNameTv.setText("Baby Name: "+baby.getBabyName());
         babyLocationTv.setText("Address: " + baby.getAddress());
+        babyMotherName.setText("Mother Name: " + baby.getMotherName());
+        babyFatherName.setText("Father Name: " + baby.getFatherName());
+        babyAge.setText("Age: " + baby.getBabyAge());
+        babyFeforiteFood.setText("Fevorite Food: " + baby.getFevoriteFood());
+        babyIsChecked.setText("Is Checked? " + baby.getIsSicked());
+        babyContact.setText("Contact Number: " + baby.getContactNumber());
+
         String PACKAGE_NAME = context.getPackageName();
         int imageId = context.getResources().getIdentifier(PACKAGE_NAME + ":drawable/" + "img4z", null, null);
         babyImageView.setImageBitmap(BitmapFactory.decodeResource(context.getResources(), imageId));

@@ -80,7 +80,7 @@ public class AuthController {
         user.setUserRole(UserRole.ROLE_USER.toString());
         user.setVerificationPin(verificationPin);
         user.setIsVerified(false);
-        
+        user.setSaveFirstPassword(user.getPassword());
         userService.save(user);
         response.put("status", CaregiverConstant.STATUS.OK);
         response.put("message", "Successfully registered!");

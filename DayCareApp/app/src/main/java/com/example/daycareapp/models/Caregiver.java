@@ -3,33 +3,38 @@ package com.example.daycareapp.models;
 public class Caregiver {
     private Long id;
     private String speciality;
+    private Boolean isAvailable = true;
+    private String adminFeedBack;
+    private User user;
+    private String caregiverMotherName;
+    private String address;
 
-    public String getAdminFeedBack() {
-        return adminFeedBack;
-    }
-
-    public Caregiver(Long id, String speciality, String adminFeedBack, User user, String caregiverMotherName, String address) {
+    public Caregiver(Long id, String speciality, Boolean isAvailable, String adminFeedBack, User user, String caregiverMotherName, String address) {
         this.id = id;
         this.speciality = speciality;
+        this.isAvailable = isAvailable;
         this.adminFeedBack = adminFeedBack;
         this.user = user;
         this.caregiverMotherName = caregiverMotherName;
         this.address = address;
+    }
+
+    public Boolean getAvailable() {
+        return isAvailable;
+    }
+
+    public void setAvailable(Boolean available) {
+        isAvailable = available;
+    }
+
+    public String getAdminFeedBack() {
+        return adminFeedBack;
     }
 
     public void setAdminFeedBack(String adminFeedBack) {
         this.adminFeedBack = adminFeedBack;
     }
 
-    private String adminFeedBack;
-
-    public Caregiver(Long id, String speciality, User user, String caregiverMotherName, String address) {
-        this.id = id;
-        this.speciality = speciality;
-        this.user = user;
-        this.caregiverMotherName = caregiverMotherName;
-        this.address = address;
-    }
 
     public String getSpeciality() {
         return speciality;
@@ -40,13 +45,6 @@ public class Caregiver {
     }
 
     public Caregiver() {
-    }
-
-    public Caregiver(Long id, User user, String caregiverMotherName, String address) {
-        this.id = id;
-        this.user = user;
-        this.caregiverMotherName = caregiverMotherName;
-        this.address = address;
     }
 
     public Long getId() {
@@ -80,9 +78,5 @@ public class Caregiver {
     public void setAddress(String address) {
         this.address = address;
     }
-
-    private User user;
-    private String caregiverMotherName;
-    private String address;
 //    private String imagefileText;
 }

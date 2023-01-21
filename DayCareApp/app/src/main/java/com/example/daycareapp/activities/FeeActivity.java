@@ -23,7 +23,7 @@ import com.example.daycareapp.R;
 
 public class FeeActivity extends AppCompatActivity {
     
-    TextView nametv, locationtv, feetv, ratingtv;
+    TextView nametv, locationtv, feetv, feedBacktv, specialityTv, isAvailableTv;
     ImageView imageView;
     Button addBabyButton, seeReviewBt;
     Long caregiverId = -1L;
@@ -40,7 +40,8 @@ public class FeeActivity extends AppCompatActivity {
         locationtv = findViewById(R.id.locationtvid);
         imageView = findViewById(R.id.profileimageid);
         feetv = findViewById(R.id.feetvid);
-        ratingtv = findViewById(R.id.ratingid);
+        feedBacktv = findViewById(R.id.feedBackId);
+        specialityTv = findViewById(R.id.speciality);
         addBabyButton = findViewById(R.id.addBabyBtId);
         seeReviewBt = findViewById(R.id.reviewBtId);
 
@@ -48,13 +49,22 @@ public class FeeActivity extends AppCompatActivity {
         String location = this.getIntent().getStringExtra("location");
         String imageText = this.getIntent().getStringExtra("img");
         caregiverId = this.getIntent().getLongExtra("caregiver_id", -1);
+        String speciality = this.getIntent().getStringExtra("speciality");
+        String feedback = this.getIntent().getStringExtra("feedback");
+//        Boolean isAvailable = this.getIntent().getBooleanExtra("isAvailable", true);
 
         Toast.makeText(this, "img: " +imageText, Toast.LENGTH_SHORT).show();
 
         nametv.setText(name);
         locationtv.setText(location);
         feetv.setText("Fee: 100tk");
-        ratingtv.setText("Specialit: Singer");
+        specialityTv.setText("Speciality: " + speciality);
+        feedBacktv.setText("Admin Feedback: "+feedback);
+//        if(isAvailable){
+//            isAvailableTv.setText("Available");
+//        }else{
+//            isAvailableTv.setText("Not available");
+//        }
         int imageId = getResources().getIdentifier(PACKAGE_NAME + ":drawable/" + imageText, null, null);
 //        imageView.setImageBitmap(BitmapFactory.decodeResource(getResources(), imageId));
 

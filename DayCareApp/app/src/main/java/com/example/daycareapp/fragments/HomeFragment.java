@@ -110,19 +110,27 @@ public class HomeFragment extends Fragment {
     private final CaregiverClickListener caregiverClickListener = new CaregiverClickListener() {
         @Override
         public void onClick(Caregiver caregiver) {
-            Intent intent = new Intent(getContext(), FeeActivity.class);
-            intent.putExtra("caregiver_id", caregiver.getId());
-            intent.putExtra("name", caregiver.getCaregiverMotherName());
-            intent.putExtra("location", caregiver.getAddress());
-            intent.putExtra("img", "img1");
-            startActivity(intent);
+            if(!caregiver.getAvailable()){
+                callForAvailableCaregiver("Sorry, this caregiver is not available right now!");
+                return;
+            }else{
+                Intent intent = new Intent(getContext(), FeeActivity.class);
+                intent.putExtra("caregiver_id", caregiver.getId());
+                intent.putExtra("name", caregiver.getCaregiverMotherName());
+                intent.putExtra("location", caregiver.getAddress());
+                intent.putExtra("speciality", caregiver.getSpeciality());
+                intent.putExtra("feedback", caregiver.getAdminFeedBack());
+                intent.putExtra("isAvailable", caregiver.getAvailable());
+                intent.putExtra("img", "img1");
+                startActivity(intent);
+            }
+
 //            getActivity().finish();
-            Toast.makeText(getContext(), "selected: " + caregiver.getCaregiverMotherName(), Toast.LENGTH_SHORT).show();
         }
 
         @Override
         public void onLongClick(Caregiver caregiver, TextView textView) {
-            callForDialog(caregiver.getCaregiverMotherName());
+//            callForDialog(caregiver.getCaregiverMotherName());
             Toast.makeText(getContext(), "long selected: " + caregiver.getCaregiverMotherName(), Toast.LENGTH_SHORT).show();
         }
     };
@@ -174,6 +182,21 @@ public class HomeFragment extends Fragment {
 
     private void callForDialog(String dialogStringData){
         dialog.setContentView(R.layout.sample_info_layout);
+        TextView cancell = dialog.findViewById(R.id.cancelId);
+        TextView dialogText = dialog.findViewById(R.id.dialogTextId);
+        dialogText.setText(dialogStringData);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        cancell.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.cancel();
+            }
+        });
+        dialog.show();
+    }
+
+    private void callForAvailableCaregiver(String dialogStringData){
+        dialog.setContentView(R.layout.sample_alert_dialog);
         TextView cancell = dialog.findViewById(R.id.cancelId);
         TextView dialogText = dialog.findViewById(R.id.dialogTextId);
         dialogText.setText(dialogStringData);

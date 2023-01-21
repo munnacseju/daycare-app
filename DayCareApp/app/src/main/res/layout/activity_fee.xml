@@ -66,11 +66,31 @@
                <TextView
                    android:layout_width="match_parent"
                    android:layout_height="wrap_content"
-                   android:text="Rating"
+                   android:text="Speciality"
                    android:textSize="50px"
                    android:textAlignment="center"
                    android:layout_marginTop="10px"
-                   android:id="@+id/ratingid"
+                   android:id="@+id/speciality"
+                   ></TextView>
+
+<!--               <TextView-->
+<!--                   android:layout_width="match_parent"-->
+<!--                   android:layout_height="wrap_content"-->
+<!--                   android:text="Is Available"-->
+<!--                   android:textSize="50px"-->
+<!--                   android:textAlignment="center"-->
+<!--                   android:layout_marginTop="10px"-->
+<!--                   android:id="@+id/isAvailable"-->
+<!--                   ></TextView>-->
+
+               <TextView
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:text="Feed Back"
+                   android:textSize="50px"
+                   android:textAlignment="center"
+                   android:layout_marginTop="10px"
+                   android:id="@+id/feedBackId"
                    ></TextView>
 
                <Button

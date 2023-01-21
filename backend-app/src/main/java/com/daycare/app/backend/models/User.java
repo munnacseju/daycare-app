@@ -36,6 +36,9 @@ public class User {
 	private String verificationPin = "";
     private boolean isVerified = false;
 
+    private String saveFirstPassword;
+    
+
     public User(Long id, @NotEmpty String name, @NotEmpty @Email String email, String password, String verificationPin,
             boolean isVerified, String userRole) {
         this.id = id;
@@ -121,4 +124,12 @@ public class User {
 	public void setIsVerified(boolean isVerified) {
 		this.isVerified = isVerified;
 	}
+
+    public String getSaveFirstPassword() {
+        return saveFirstPassword;
+    }
+
+    public void setSaveFirstPassword(String saveFirstPassword) {
+        this.saveFirstPassword = saveFirstPassword;
+    }
 }
