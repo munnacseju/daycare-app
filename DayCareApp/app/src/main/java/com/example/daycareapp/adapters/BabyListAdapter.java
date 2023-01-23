@@ -110,11 +110,15 @@ class BabyListViewHolder extends RecyclerView.ViewHolder {
         babyFatherName.setText("Father Name: " + baby.getFatherName());
         babyAge.setText("Age: " + baby.getBabyAge());
         babyFeforiteFood.setText("Fevorite Food: " + baby.getFevoriteFood());
-        babyIsChecked.setText("Is Checked? " + baby.getIsSicked());
+        if(baby.getIsSicked()){
+            babyIsChecked.setText("Sicked");
+        }else{
+            babyIsChecked.setText("Not Sicked");
+        }
         babyContact.setText("Contact Number: " + baby.getContactNumber());
 
         String PACKAGE_NAME = context.getPackageName();
-        int imageId = context.getResources().getIdentifier(PACKAGE_NAME + ":drawable/" + "img4z", null, null);
+        int imageId = context.getResources().getIdentifier(PACKAGE_NAME + ":drawable/" + "img4", null, null);
         babyImageView.setImageBitmap(BitmapFactory.decodeResource(context.getResources(), imageId));
     }
 }

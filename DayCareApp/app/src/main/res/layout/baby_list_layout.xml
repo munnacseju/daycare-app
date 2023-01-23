@@ -14,7 +14,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="290dp"
+        android:layout_height="340dp"
         android:orientation="horizontal"
         android:paddingStart="5dp"
         android:paddingTop="10dp"
@@ -25,6 +25,7 @@
             android:layout_width="120dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
+            android:visibility="gone"
             android:background="@drawable/img_main" />
 
         <LinearLayout
@@ -129,8 +130,9 @@
                 android:fontFamily="@font/nunito_bold"
                 android:lines="1"
                 android:maxLines="1"
-                android:text="Is Checked?"
+                android:text="Is Sicked?"
                 android:textColor="@color/black_soft"
+                android:visibility="gone"
                 android:textSize="14sp" />
             <Button
                 android:id="@+id/deleteBaby"
