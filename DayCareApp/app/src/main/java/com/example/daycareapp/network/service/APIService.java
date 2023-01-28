@@ -56,4 +56,7 @@ public interface APIService {
 
     @POST("addReview")
     Call<DefaultResponse> addReview(@Body Review review);
+
+    @POST("updateOrder")
+    Call<DefaultResponse> updateOrder(@Body Order order);
 }

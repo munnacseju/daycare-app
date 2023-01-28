@@ -9,6 +9,8 @@ public class Order {
     private Long babyId;
     private Long caregiverId;
     private Timestamp startTime;
+    private String accountNumber;
+    private String accountPass;
 
     public Order(String speciality, Long babyId, Long caregiverId, Long amount, boolean isPaymentDone, boolean isServiceDone) {
         this.speciality = speciality;
@@ -118,6 +120,22 @@ public class Order {
         this.speciality = speciality;
     }
     public Order() {
+    }
+
+    public void setAccountNumber( String accountNumber){
+        this.accountNumber = accountNumber;
+    }
+
+    public String getAccountNumber(){
+        return this.accountNumber;
+    }
+
+    public void setAccountPass(String accountPass){
+        this.accountPass = accountPass;
+    }
+
+    public String getAccountPass(){
+        return this.accountPass;
     }
 
 }

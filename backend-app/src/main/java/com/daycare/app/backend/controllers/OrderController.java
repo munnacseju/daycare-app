@@ -22,6 +22,7 @@ import com.daycare.app.backend.services.UserService;
 @RequestMapping("/api")
 public class OrderController {
     public static final String ADD_ORDER = "/addOrder";
+    public static final String UPDATE_ORDER = "/updateOrder";
     public static final String FIND_ORDER_BY_ID = "/findOrder/{id}";
     public static final String FIND_ALL_ORDER_BY_USER = "/findAllOrder";
     public static final String DELETE_ORDER = "/deleteOrder/{id}";
@@ -42,6 +43,37 @@ public class OrderController {
         order.setUser(user);
         orderService.save(order);
         response.put("order", order);
+        response.put("status", CaregiverConstant.STATUS.OK);
+        return response;
+    }
+
+    @RequestMapping(value = UPDATE_ORDER, method = RequestMethod.POST)
+    @ResponseBody
+    public HashMap<String, Object> updateOrder(@RequestBody Order order) {
+        HashMap<String, Object> response = new HashMap<>();
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        Optional<User> userOptional = userService.findByEmail(email);
+        User user = userOptional.get();
+        if(order.getId()==null){
+            response.put("status", CaregiverConstant.STATUS.NOT_OK);
+            response.put("message", "Order id empty");        
+            return response;
+        }
+        Long orderId = order.getId();        		
+        Optional<Order> updatedOrderOptional =  orderService.findById(orderId);
+        if(updatedOrderOptional.isEmpty()) {
+        	response.put("status", CaregiverConstant.STATUS.NOT_OK);
+            response.put("message", "Invalid order id");        
+            return response;
+        }
+        
+        Order updatedOrder = updatedOrderOptional.get();
+        updatedOrder.setAccountNumber(order.getAccountNumber());
+        updatedOrder.setAccountPass(order.getAccountPass());
+        updatedOrder.setPaymentDone(true);
+        orderService.save(updatedOrder);
+        response.put("status", CaregiverConstant.STATUS.OK);
+        response.put("message", "Successfully updated order");        
         return response;
     }
 

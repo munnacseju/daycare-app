@@ -59,9 +59,6 @@ public class DateActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 createOrder();
-                Intent intent = new Intent(getApplicationContext(), PaymentActivity.class);
-                finish();
-                startActivity(intent);
             }
         });
 
@@ -202,6 +199,14 @@ public class DateActivity extends AppCompatActivity {
             public void onResponse(Call<CreateOrderResponse> call, Response<CreateOrderResponse> response) {
                 if (response.isSuccessful() && response.code() == 200) {
                     String message = response.body().getStatus();
+                    Order order = response.body().getOrder();
+                    Long orderId = order.getId();
+                    Intent intent = new Intent(getApplicationContext(), PaymentActivity.class);
+                    intent.putExtra("orderId", orderId);
+                    finish();
+                    startActivity(intent);
+//                    Toast.makeText(DateActivity.this, "Order Id: " + order.getId(), Toast.LENGTH_SHORT).show();
+
                     Toast.makeText(getApplicationContext(), "Successfully created order! status: "+message, Toast.LENGTH_LONG).show();
 
                 } else {

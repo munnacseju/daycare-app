@@ -22,6 +22,9 @@ public class Order {
 	@ManyToOne(optional = false)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
+
+	private String accountNumber;
+	private String accountPass;
 	
     public Order(Long id, User user, Long babyId, Long caregiverId, Long amount, Timestamp startTime, Timestamp endTime,
 			boolean isPaymentDone, boolean isServiceDone, String speciality) {
@@ -130,4 +133,19 @@ public class Order {
 	public Order() {
 	}	
 
+	public void setAccountNumber( String accountNumber){
+		this.accountNumber = accountNumber;
+	}
+
+	public String getAccountNumber(){
+		return this.accountNumber;
+	}
+
+	public void setAccountPass(String accountPass){
+		this.accountPass = accountPass;
+	}
+
+	public String getAccountPass(){
+		return this.accountPass;
+	}
 }

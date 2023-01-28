@@ -28,17 +28,16 @@
         app:srcCompat="@drawable/team_tracker_logo_foreground" />
 
     <TextView
-        android:id="@+id/textView2"
         android:layout_width="131dp"
         android:layout_height="47dp"
         android:text="Enter Card Number"
         android:textColor="@color/colorBlack" />
 
     <EditText
-        android:id="@+id/card_number"
+        android:id="@+id/paymentCardNumberEtBt"
         android:layout_width="260dp"
         android:layout_height="35dp"
-        android:layout_above="@+id/payconfirmbtid"
+        android:layout_above="@+id/paymentCardNumberEtBt"
         android:layout_below="@+id/imageView"
         android:hint="Enter card number"
         android:inputType="number" />
@@ -54,7 +53,7 @@
 
     <EditText
         android:hint="Enter Password"
-        android:id="@+id/pass"
+        android:id="@+id/paymentPassEtId"
         android:layout_width="260dp"
         android:layout_height="35dp"
         android:layout_above="@+id/payconfirmbtid"
