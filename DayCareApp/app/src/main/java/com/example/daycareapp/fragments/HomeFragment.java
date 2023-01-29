@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -47,6 +48,7 @@ public class HomeFragment extends Fragment {
     private SharedRefs sharedRefs;
     private Dialog dialog;
     private Button filterButton, addCaregiver;
+    private ProgressBar progressBar;
 
 
 
@@ -61,6 +63,7 @@ public class HomeFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         caregiverList = new ArrayList<>();
 
         getCareGiverList();
@@ -79,6 +82,7 @@ public class HomeFragment extends Fragment {
         filterButton = view.findViewById(R.id.filterButtonId);
         addCaregiver = view.findViewById(R.id.addCaregiver);
         sharedRefs = new SharedRefs(getContext());
+        progressBar = view.findViewById(R.id.progressBarId);
         filterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -121,11 +125,14 @@ public class HomeFragment extends Fragment {
                 intent.putExtra("speciality", caregiver.getSpeciality());
                 intent.putExtra("feedback", caregiver.getAdminFeedBack());
                 intent.putExtra("isAvailable", caregiver.getAvailable());
-                intent.putExtra("img", "img1");
+                String imageBase64 = caregiver.getImageBase64().toString();
+                intent.putExtra("img", imageBase64);
+                getActivity().finish();
+
+//                Toast.makeText(getContext(), imageBase64, Toast.LENGTH_SHORT).show();
+//                intent.putExtra("img", caregiver.getImageBase64());
                 startActivity(intent);
             }
-
-//            getActivity().finish();
         }
 
         @Override
@@ -144,7 +151,7 @@ public class HomeFragment extends Fragment {
 
     private void deleteCareGiver(Caregiver caregiver) {
         {
-//        progressBar.setVisibility(View.VISIBLE);
+            getView().findViewById(R.id.progressBarId).setVisibility(View.VISIBLE);
             Call<DefaultResponse> call = RetrofitAPIClient
                     .getInstance()
                     .getAPI()
@@ -153,6 +160,7 @@ public class HomeFragment extends Fragment {
             call.enqueue(new Callback<DefaultResponse>() {
                 @Override
                 public void onResponse(Call<DefaultResponse> call, Response<DefaultResponse> response) {
+                    getView().findViewById(R.id.progressBarId).setVisibility(View.GONE);
                     if (response.isSuccessful() && response.code() == 200) {
                         DefaultResponse defaultResponse = response.body();
                         Toast.makeText(getContext(), defaultResponse.getMessage() + ", Status: " + defaultResponse.getStatus(), Toast.LENGTH_LONG).show();
@@ -165,6 +173,7 @@ public class HomeFragment extends Fragment {
 
                 @Override
                 public void onFailure(Call<DefaultResponse> call, Throwable t) {
+                    getView().findViewById(R.id.progressBarId).setVisibility(View.GONE);
                     Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_LONG).show();
                 }
             });
@@ -249,7 +258,7 @@ public class HomeFragment extends Fragment {
 
 
     private void getCareGiverList() {
-//        progressBar.setVisibility(View.VISIBLE);
+//        getView().findViewById(R.id.progressBarId).setVisibility(View.VISIBLE);
         Call<AllCaregiverResponse> call = RetrofitAPIClient
                 .getInstance()
                 .getAPI()
@@ -258,6 +267,7 @@ public class HomeFragment extends Fragment {
         call.enqueue(new Callback<AllCaregiverResponse>() {
             @Override
             public void onResponse(Call<AllCaregiverResponse> call, Response<AllCaregiverResponse> response) {
+                getView().findViewById(R.id.progressBarId).setVisibility(View.GONE);
                 if (response.isSuccessful() && response.code() == 200) {
                     String message = response.body().getStatus();
                     Toast.makeText(getActivity(), "Successfully got data! status: "+message, Toast.LENGTH_LONG).show();
@@ -274,6 +284,7 @@ public class HomeFragment extends Fragment {
 
             @Override
             public void onFailure(Call<AllCaregiverResponse> call, Throwable t) {
+                getView().findViewById(R.id.progressBarId).setVisibility(View.GONE);
                 Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });

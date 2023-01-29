@@ -58,6 +58,7 @@ public class BabyActivity extends AppCompatActivity {
         addBaby.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                finish();
                 Intent intent = new Intent(getApplicationContext(), AddBabyActivity.class);
                 intent.putExtra("caregiver_id", caregiverId);
                 startActivity(intent);
@@ -135,6 +136,7 @@ public class BabyActivity extends AppCompatActivity {
 
     private void deleteBaby(Baby baby) {
         {
+            findViewById(R.id.progressBarId).setVisibility(View.VISIBLE);
 //        progressBar.setVisibility(View.VISIBLE);
             Call<DefaultResponse> call = RetrofitAPIClient
                     .getInstance()
@@ -144,6 +146,8 @@ public class BabyActivity extends AppCompatActivity {
             call.enqueue(new Callback<DefaultResponse>() {
                 @Override
                 public void onResponse(Call<DefaultResponse> call, Response<DefaultResponse> response) {
+                    findViewById(R.id.progressBarId).setVisibility(View.GONE);
+
                     if (response.isSuccessful() && response.code() == 200) {
                         DefaultResponse defaultResponse = response.body();
                         Toast.makeText(getApplicationContext(), defaultResponse.getMessage() + ", Status: " + defaultResponse.getStatus(), Toast.LENGTH_LONG).show();
@@ -156,6 +160,7 @@ public class BabyActivity extends AppCompatActivity {
 
                 @Override
                 public void onFailure(Call<DefaultResponse> call, Throwable t) {
+                    findViewById(R.id.progressBarId).setVisibility(View.GONE);
                     Toast.makeText(getApplicationContext(), t.getMessage(), Toast.LENGTH_LONG).show();
                 }
             });
@@ -184,6 +189,13 @@ public class BabyActivity extends AppCompatActivity {
             finish();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        finish();
+        Intent intent = new Intent(getApplicationContext(), ProtectedActivity.class);
+        startActivity(intent);
     }
 }
 

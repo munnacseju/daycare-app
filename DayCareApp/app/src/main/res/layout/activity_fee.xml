@@ -27,10 +27,12 @@
                <ImageView
                    android:layout_width="match_parent"
                    android:layout_height="300px"
-                   android:src="@drawable/img3"
+                   android:src="@drawable/about_us"
                    android:layout_margin="10px"
                    android:id="@+id/profileimageid"
                    ></ImageView>
+
+
 
                <TextView
                    android:layout_width="match_parent"
@@ -40,6 +42,16 @@
                    android:textAlignment="center"
                    android:layout_marginTop="10px"
                    android:id="@+id/nametvid"
+                   ></TextView>
+
+               <TextView
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:text="Speciality"
+                   android:textSize="50px"
+                   android:textAlignment="center"
+                   android:layout_marginTop="10px"
+                   android:id="@+id/speciality"
                    ></TextView>
 
 
@@ -61,16 +73,6 @@
                    android:textAlignment="center"
                    android:layout_marginTop="10px"
                    android:id="@+id/feetvid"
-                   ></TextView>
-
-               <TextView
-                   android:layout_width="match_parent"
-                   android:layout_height="wrap_content"
-                   android:text="Speciality"
-                   android:textSize="50px"
-                   android:textAlignment="center"
-                   android:layout_marginTop="10px"
-                   android:id="@+id/speciality"
                    ></TextView>
 
 <!--               <TextView-->

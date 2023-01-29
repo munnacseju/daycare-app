@@ -91,6 +91,7 @@ public class RegisterActivity extends AppCompatActivity {
                 } else if (name == null || name.length() == 0) {
                     Toast.makeText(RegisterActivity.this, "Invalid Name", Toast.LENGTH_SHORT).show();
                 } else {
+                    findViewById(R.id.progressBarId).setVisibility(View.VISIBLE);
                     registerWithForm(name, email, password);
                 }
             }
@@ -99,6 +100,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     private void registerWithForm(String name, String username, String password) {
         authViewModel.register(name, username, password).observe(RegisterActivity.this, isRegistrationSuccessful -> {
+            findViewById(R.id.progressBarId).setVisibility(View.GONE);
             if (isRegistrationSuccessful.equals("success")) {
                 Toast.makeText(RegisterActivity.this, "Registration Successful!", Toast.LENGTH_LONG).show();
                 startActivity(new Intent(RegisterActivity.this, LoginActivity.class));

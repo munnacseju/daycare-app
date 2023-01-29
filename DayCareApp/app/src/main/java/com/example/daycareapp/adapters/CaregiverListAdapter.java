@@ -18,6 +18,7 @@ import com.example.daycareapp.listeners.CaregiverClickListener;
 import com.example.daycareapp.listeners.DeleteCaregiverListener;
 import com.example.daycareapp.models.Caregiver;
 import com.example.daycareapp.models.UserRole;
+import com.example.daycareapp.util.EncodeDecodeUtil;
 import com.example.daycareapp.util.SharedRefs;
 
 import java.util.List;
@@ -103,8 +104,9 @@ class CaregiverListViewHolder extends RecyclerView.ViewHolder {
     public void setData(Caregiver caregiver) {
         caregiverNameTv.setText(caregiver.getCaregiverMotherName());
         caregiverLocationTv.setText(caregiver.getAddress());
-        String PACKAGE_NAME = context.getPackageName();
-        int imageId = context.getResources().getIdentifier(PACKAGE_NAME + ":drawable/img" + caregiver.getId(), null, null);
-        caregiverImageView.setImageBitmap(BitmapFactory.decodeResource(context.getResources(), imageId));
+//        String PACKAGE_NAME = context.getPackageName();
+//        int imageId = context.getResources().getIdentifier(PACKAGE_NAME + ":drawable/img" + caregiver.getId(), null, null);
+        caregiverImageView.setImageBitmap(EncodeDecodeUtil.decodeBase64ToImage(caregiver.getImageBase64(), context));
+//        caregiverImageView.setImageBitmap(BitmapFactory.decodeResource(context.getResources(), imageId));
     }
 }

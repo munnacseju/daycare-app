@@ -20,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.daycareapp.R;
+import com.example.daycareapp.util.EncodeDecodeUtil;
 
 public class FeeActivity extends AppCompatActivity {
     
@@ -53,22 +54,15 @@ public class FeeActivity extends AppCompatActivity {
         String feedback = this.getIntent().getStringExtra("feedback");
 //        Boolean isAvailable = this.getIntent().getBooleanExtra("isAvailable", true);
 
-        Toast.makeText(this, "img: " +imageText, Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, "img: " +imageText, Toast.LENGTH_SHORT).show();
 
         nametv.setText(name);
         locationtv.setText(location);
         feetv.setText("Fee: 100tk");
         specialityTv.setText("Speciality: " + speciality);
         feedBacktv.setText("Admin Feedback: "+feedback);
-//        if(isAvailable){
-//            isAvailableTv.setText("Available");
-//        }else{
-//            isAvailableTv.setText("Not available");
-//        }
-        int imageId = getResources().getIdentifier(PACKAGE_NAME + ":drawable/" + imageText, null, null);
-//        imageView.setImageBitmap(BitmapFactory.decodeResource(getResources(), imageId));
 
-        Bitmap mbitmap=((BitmapDrawable) getResources().getDrawable(imageId)).getBitmap();
+        Bitmap mbitmap= EncodeDecodeUtil.decodeBase64ToImage(imageText, this);
         Bitmap imageRounded=Bitmap.createBitmap(mbitmap.getWidth(), mbitmap.getHeight(), mbitmap.getConfig());
         Canvas canvas=new Canvas(imageRounded);
         Paint mpaint=new Paint();
@@ -104,9 +98,16 @@ public class FeeActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(item.getItemId()==android.R.id.home){
             finish();
+            Intent intent = new Intent(getApplicationContext(), ProtectedActivity.class);
+            startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
     }
 
-
+    @Override
+    public void onBackPressed() {
+        finish();
+        Intent intent = new Intent(getApplicationContext(), ProtectedActivity.class);
+        startActivity(intent);
+    }
 }

@@ -16,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -47,6 +48,7 @@ public class BabyFragment extends Fragment {
     private Dialog dialog;
     private Button filterButton;
     Button addBaby;
+    ProgressBar progressBar;
 
     public BabyFragment(String demoMessage) {
         this.demoMessage = demoMessage;
@@ -71,11 +73,13 @@ public class BabyFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_baby, container, false);
         addBaby = view.findViewById(R.id.addBaby);
+        progressBar = view.findViewById(R.id.progressBarId);
         addBaby.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getContext(), AddBabyActivity.class);
                 startActivity(intent);
+                getActivity().finish();
             }
         });
 
@@ -131,6 +135,7 @@ public class BabyFragment extends Fragment {
         call.enqueue(new Callback<AllBabyResponse>() {
             @Override
             public void onResponse(Call<AllBabyResponse> call, Response<AllBabyResponse> response) {
+                progressBar.setVisibility(View.GONE);
                 if (response.isSuccessful() && response.code() == 200) {
                     String message = response.body().getStatus();
                     Toast.makeText(getActivity(), "Successfully got data! status: "+message, Toast.LENGTH_LONG).show();
@@ -139,13 +144,13 @@ public class BabyFragment extends Fragment {
 
 
                 } else {
-//                    progressBar.setVisibility(View.GONE);
                     Toast.makeText(getContext(), "Some unknown problem occurred!! "+response.code(), Toast.LENGTH_LONG).show();
                 }
             }
 
             @Override
             public void onFailure(Call<AllBabyResponse> call, Throwable t) {
+                progressBar.setVisibility(View.GONE);
                 Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
@@ -177,7 +182,7 @@ public class BabyFragment extends Fragment {
 
     private void deleteBaby(Baby baby) {
         {
-//        progressBar.setVisibility(View.VISIBLE);
+        progressBar.setVisibility(View.VISIBLE);
             Call<DefaultResponse> call = RetrofitAPIClient
                     .getInstance()
                     .getAPI()
@@ -186,18 +191,19 @@ public class BabyFragment extends Fragment {
             call.enqueue(new Callback<DefaultResponse>() {
                 @Override
                 public void onResponse(Call<DefaultResponse> call, Response<DefaultResponse> response) {
+                    progressBar.setVisibility(View.GONE);
                     if (response.isSuccessful() && response.code() == 200) {
                         DefaultResponse defaultResponse = response.body();
                         Toast.makeText(getContext(), defaultResponse.getMessage() + ", Status: " + defaultResponse.getStatus(), Toast.LENGTH_LONG).show();
                         getBabyList();
                     } else {
-//                    progressBar.setVisibility(View.GONE);
                         Toast.makeText(getContext(), "Some unknown problem occurred!! "+response.code(), Toast.LENGTH_LONG).show();
                     }
                 }
 
                 @Override
                 public void onFailure(Call<DefaultResponse> call, Throwable t) {
+                    progressBar.setVisibility(View.GONE);
                     Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_LONG).show();
                 }
             });

@@ -4,10 +4,12 @@ import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
@@ -57,7 +59,6 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), AboutUsActivity.class);
                 startActivity(intent);
-                finish();
             }
         });
         authViewModel = new ViewModelProvider(this).get(AuthViewModel.class);
@@ -109,6 +110,7 @@ public class LoginActivity extends AppCompatActivity {
                     Toast.makeText(LoginActivity.this, "Invalid Password", Toast.LENGTH_SHORT).show();
                 } else {
 //                    Toast.makeText(LoginActivity.this, "Password : "+ password, Toast.LENGTH_SHORT).show();
+                    findViewById(R.id.progressBarId).setVisibility(View.VISIBLE);
                     loginWithForm(email, password);
                 }
             }
@@ -117,6 +119,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void loginWithForm(String username, String password) {
         authViewModel.login(username, password).observe(LoginActivity.this, isLoginSuccessful -> {
+            findViewById(R.id.progressBarId).setVisibility(View.GONE);
             if (isLoginSuccessful.equals("success")) {
                 Toast.makeText(LoginActivity.this, "Login Successful!", Toast.LENGTH_LONG).show();
                 startActivity(new Intent(LoginActivity.this, ProtectedActivity.class));
@@ -148,42 +151,29 @@ public class LoginActivity extends AppCompatActivity {
         finish();
     }
 
-//    private void loginUser(String email, String password) {
-//
-//        Call<ResponseBody> call = RetrofitAPIClient
-//                .getInstance()
-//                .getAPI()
-//                .checkUser(new User(email, password));
-//
-//        call.enqueue(new Callback<ResponseBody>() {
-//            @Override
-//            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-//                Log.d("hello", call.request().toString());
-//                if (response.isSuccessful() && response.code() == 200) {
-//                    Log.d("token", response.headers().get("Authorization"));
-//
-//                    String authToken = response.headers().get("Authorization");
-//                    AuthToken.authToken = authToken;
-//                    Toast.makeText(getApplicationContext(), "Successfully Logged in!", Toast.LENGTH_LONG).show();
-//                    SharedPreferences sharedPreferences = getSharedPreferences("data",MODE_PRIVATE);
-//                    SharedPreferences.Editor editor = sharedPreferences.edit();
-//                    editor.putString("auth", authToken);
-//                    editor.apply();
-//                    finish();
-//                    startActivity(new Intent(getApplicationContext(), ProtectedActivity.class));
-//
-//                } else {
-//                    Toast.makeText(getApplicationContext(), "Wrong Credentials! Try again!", Toast.LENGTH_LONG).show();
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call<ResponseBody> call, Throwable t) {
-//                Toast.makeText(getApplicationContext(), t.getMessage(), Toast.LENGTH_LONG).show();
-//                Log.d("error socket", t.getMessage());
-//            }
-//        });
-//
-//    }
-//
+    @Override
+    public void onBackPressed() {
+        onBackPressedAlertDialog();
+    }
+
+    public void onBackPressedAlertDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        builder.setMessage("Do you want to exit?").setCancelable(false)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        finish();
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        return;
+                    }
+                });
+        AlertDialog alertDialog = builder.create();
+        alertDialog.setTitle("");
+        alertDialog.show();
+    }
 }

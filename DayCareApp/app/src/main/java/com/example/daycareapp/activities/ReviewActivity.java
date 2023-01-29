@@ -60,6 +60,7 @@ public class ReviewActivity extends AppCompatActivity {
     }
 
     public void getReviews(Long caregiverId){
+        findViewById(R.id.progressBarId).setVisibility(View.VISIBLE);
         Call<AllReviewResponse> call = RetrofitAPIClient
                 .getInstance()
                 .getAPI()
@@ -68,6 +69,7 @@ public class ReviewActivity extends AppCompatActivity {
         call.enqueue(new Callback<AllReviewResponse>() {
             @Override
             public void onResponse(Call<AllReviewResponse> call, Response<AllReviewResponse> response) {
+                findViewById(R.id.progressBarId).setVisibility(View.GONE);
                 AllReviewResponse allReviewResponse = response.body();
                 Toast.makeText(ReviewActivity.this, allReviewResponse.getMessage() +", Status: "+allReviewResponse.getStatus() + " " + allReviewResponse.getReviews().size(), Toast.LENGTH_SHORT).show();
                 reviewList = allReviewResponse.getReviews();
@@ -77,6 +79,7 @@ public class ReviewActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<AllReviewResponse> call, Throwable t) {
+                findViewById(R.id.progressBarId).setVisibility(View.GONE);
                 Toast.makeText(ReviewActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
@@ -88,5 +91,12 @@ public class ReviewActivity extends AppCompatActivity {
             finish();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        finish();
+        Intent intent = new Intent(getApplicationContext(), ProtectedActivity.class);
+        startActivity(intent);
     }
 }

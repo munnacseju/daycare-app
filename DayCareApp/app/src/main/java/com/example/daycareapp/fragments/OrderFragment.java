@@ -88,11 +88,11 @@ public class OrderFragment extends Fragment {
     private final OrderClickListener orderClickListener = new OrderClickListener() {
         @Override
         public void onClick(Order order) {
-            Intent intent = new Intent(getContext(), FeeActivity.class);
-            intent.putExtra("name", order.getId());
-            intent.putExtra("location", order.getId());
-            intent.putExtra("img", "img1");
-            startActivity(intent);
+//            Intent intent = new Intent(getContext(), FeeActivity.class);
+//            intent.putExtra("name", order.getId());
+//            intent.putExtra("location", order.getId());
+//            intent.putExtra("img", "img1");
+//            startActivity(intent);
 //            getActivity().finish();
             Toast.makeText(getContext(), "selected: " + order.getId(), Toast.LENGTH_SHORT).show();
         }
@@ -105,7 +105,6 @@ public class OrderFragment extends Fragment {
     };
 
     private void getOrderList() {
-//        progressBar.setVisibility(View.VISIBLE);
         Call<AllOrderResponse> call = RetrofitAPIClient
                 .getInstance()
                 .getAPI()
@@ -114,25 +113,24 @@ public class OrderFragment extends Fragment {
         call.enqueue(new Callback<AllOrderResponse>() {
             @Override
             public void onResponse(Call<AllOrderResponse> call, Response<AllOrderResponse> response) {
+                getView().findViewById(R.id.progressBarId).setVisibility(View.GONE);
                 if (response.isSuccessful() && response.code() == 200) {
                     String message = response.body().getStatus();
                     Toast.makeText(getActivity(), "Successfully got service data! status: "+message, Toast.LENGTH_LONG).show();
                     orderList = response.body().getOrders();
-                    Toast.makeText(getContext(), "list size: " + orderList.size(), Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getContext(), "list size: " + orderList.size(), Toast.LENGTH_SHORT).show();
 
                     updateProjectsRecycler();
 
 
                 } else {
-//                    progressBar.setVisibility(View.GONE);
                     Toast.makeText(getContext(), "Some unknown problem occurred!! "+response.code(), Toast.LENGTH_LONG).show();
                 }
             }
 
             @Override
             public void onFailure(Call<AllOrderResponse> call, Throwable t) {
-                Log.d(TAG, "*******Fail*******" + t.getMessage());
-
+                getView().findViewById(R.id.progressBarId).setVisibility(View.GONE);
                 Toast.makeText(getContext(), t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });

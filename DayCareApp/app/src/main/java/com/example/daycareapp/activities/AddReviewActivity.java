@@ -1,8 +1,10 @@
 package com.example.daycareapp.activities;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -53,13 +55,15 @@ public class AddReviewActivity extends AppCompatActivity {
     }
 
     private void addReview(Review review) {
+        findViewById(R.id.progressBarId).setVisibility(View.VISIBLE);
         Call<DefaultResponse> call = RetrofitAPIClient
                 .getInstance()
                 .getAPI().addReview(review);
         call.enqueue(new Callback<DefaultResponse>() {
             @Override
             public void onResponse(Call<DefaultResponse> call, Response<DefaultResponse> response) {
-                    if (response.isSuccessful() && response.code() == 200) {
+                findViewById(R.id.progressBarId).setVisibility(View.GONE);
+                if (response.isSuccessful() && response.code() == 200) {
                         Toast.makeText(AddReviewActivity.this, response.body().getMessage(), Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(getApplicationContext(), ProtectedActivity.class);
                         startActivity(intent);
@@ -72,6 +76,7 @@ public class AddReviewActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<DefaultResponse> call, Throwable t) {
+                findViewById(R.id.progressBarId).setVisibility(View.GONE);
                 Toast.makeText(AddReviewActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
@@ -97,5 +102,33 @@ public class AddReviewActivity extends AppCompatActivity {
             finish();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        onBackPressedAlertDialog();
+    }
+
+    public void onBackPressedAlertDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        builder.setMessage("Do you want to exit without adding review?").setCancelable(false)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Intent intent = new Intent(getApplicationContext(), ProtectedActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        return;
+                    }
+                });
+        AlertDialog alertDialog = builder.create();
+        alertDialog.setTitle("");
+        alertDialog.show();
     }
 }

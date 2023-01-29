@@ -21,7 +21,16 @@
             android:layout_marginTop="30dp"
             android:orientation="vertical"
             android:padding="20dp">
-
+            <ProgressBar
+                android:background="@color/white"
+                android:layout_margin="12dp"
+                android:layout_gravity="center"
+                android:visibility="gone"
+                android:layout_marginTop="1dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/progressBarId"
+                ></ProgressBar>
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">

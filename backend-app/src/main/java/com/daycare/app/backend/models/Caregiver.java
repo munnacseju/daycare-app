@@ -27,7 +27,8 @@ public class Caregiver {
 	private String adminFeedBack;
 	
 	private String address;
-
+	
+    @Column(columnDefinition = "TEXT")
 	private String imageBase64;
 
 	private String speciality;

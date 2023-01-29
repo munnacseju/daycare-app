@@ -8,6 +8,26 @@ public class Caregiver {
     private User user;
     private String caregiverMotherName;
     private String address;
+    private String imageBase64;
+
+    public Caregiver(Long id, String speciality, Boolean isAvailable, String adminFeedBack, User user, String caregiverMotherName, String address, String imageBase64) {
+        this.id = id;
+        this.speciality = speciality;
+        this.isAvailable = isAvailable;
+        this.adminFeedBack = adminFeedBack;
+        this.user = user;
+        this.caregiverMotherName = caregiverMotherName;
+        this.address = address;
+        this.imageBase64 = imageBase64;
+    }
+
+    public String getImageBase64() {
+        return imageBase64;
+    }
+
+    public void setImageBase64(String imageBase64) {
+        this.imageBase64 = imageBase64;
+    }
 
     public Caregiver(Long id, String speciality, Boolean isAvailable, String adminFeedBack, User user, String caregiverMotherName, String address) {
         this.id = id;

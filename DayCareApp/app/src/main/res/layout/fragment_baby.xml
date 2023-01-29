@@ -5,7 +5,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorWhite"
+    android:orientation="vertical"
     tools:context=".fragments.BabyFragment">
+
+    <ProgressBar
+        android:visibility="visible"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/progressBarId"
+        ></ProgressBar>
 
     <FrameLayout
         android:layout_width="match_parent"

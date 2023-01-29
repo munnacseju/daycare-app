@@ -130,7 +130,25 @@ public class ProtectedActivity extends AppCompatActivity {
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+            builder.setMessage("Do you want to exit?").setCancelable(false)
+                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            finish();
+                        }
+                    })
+                    .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            return;
+                        }
+                    });
+            AlertDialog alertDialog = builder.create();
+            alertDialog.setTitle("");
+            alertDialog.show();
+//        super.onBackPressed();
         }
     }
 
@@ -141,9 +159,6 @@ public class ProtectedActivity extends AppCompatActivity {
             drawer.openDrawer(GravityCompat.START);
             return true;
         }
-//        if(item.getItemId()==android.R.id.home){
-//            alertDialogCall();
-//        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -166,25 +181,24 @@ public class ProtectedActivity extends AppCompatActivity {
         finish();
     }
 
-    public void alertDialogCall(){
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-        alertDialogBuilder.setMessage("Do you want to finish the Olympaid?")
-                .setCancelable(false)
+    public void onBackPressedAlertDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        builder.setMessage("Do you want to exit?").setCancelable(false)
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         finish();
                     }
-                }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.cancel();
+                        return;
                     }
                 });
-
-        AlertDialog alertDialog = alertDialogBuilder.create();
-        alertDialog.setTitle("Exit!");
-//        alertDialog.setIcon(R.drawable.math_olympaid_logo);
+        AlertDialog alertDialog = builder.create();
+        alertDialog.setTitle("");
         alertDialog.show();
     }
 }
