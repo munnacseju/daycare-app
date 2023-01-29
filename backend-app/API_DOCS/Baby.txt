@@ -1,0 +1,111 @@
+
+-----Baby-------
+* Add a Baby
+URL (POst) : APP_URL/addBaby
+
+    Sample request:
+    {
+        "user": {
+                    "id": 21,
+                    "name": "Motiur Rahman Munna",
+                    "email": "munna.cse.ju@gmail.com",
+                    "verificationPin": "72893",
+                    "isVerified": true,
+                    "saveFirstPassword": "$2a$10$pVEc9BY6NAHnKk0HLukfOuOai5.DuPRTWShDyG3ajpLAAm9ZKzZG.",
+                    "userRole": "ADMIN"
+                },
+                "babyName": "Hello baby",
+                "babyAge": 2,
+                "motherName": "Firoza Begum",
+                "fatherName": "Hello",
+                "contactNumber": "123546",
+                "address": "Hpme",
+                "fevoriteFood": "Dood",
+                "isSicked": false
+    }
+            
+    Sample Response:
+    {
+        "baby": {
+            "id": 46,
+            "user": {
+                "id": 21,
+                "name": "Motiur Rahman Munna",
+                "email": "munna.cse.ju@gmail.com",
+                "verificationPin": "72893",
+                "isVerified": true,
+                "saveFirstPassword": "$2a$10$pVEc9BY6NAHnKk0HLukfOuOai5.DuPRTWShDyG3ajpLAAm9ZKzZG.",
+                "userRole": "ADMIN"
+            },
+            "babyName": "Hello baby",
+            "babyAge": 2,
+            "motherName": "Firoza Begum",
+            "fatherName": "Hello",
+            "contactNumber": "123546",
+            "address": "Hpme",
+            "fevoriteFood": "Dood",
+            "isSicked": false
+        },
+        "status": "OK"
+    }
+
+* Find all baby 
+  URL (GET): APP_URL/api/findAllBaby
+  
+    * Sample response
+    {
+        "babies": [
+            {
+                "id": 44,
+                "user": {
+                    "id": 21,
+                    "name": "Motiur Rahman Munna",
+                    "email": "munna.cse.ju@gmail.com",
+                    "verificationPin": "72893",
+                    "isVerified": true,
+                    "saveFirstPassword": "$2a$10$pVEc9BY6NAHnKk0HLukfOuOai5.DuPRTWShDyG3ajpLAAm9ZKzZG.",
+                    "userRole": "ADMIN"
+                },
+                "babyName": "Dffg",
+                "babyAge": 4,
+                "motherName": "0198754%:'!%&*",
+                "fatherName": "Hello",
+                "contactNumber": "75685253",
+                "address": "Hpme",
+                "fevoriteFood": "Dood",
+                "isSicked": false
+            },
+            {
+                "id": 46,
+                "user": {
+                    "id": 21,
+                    "name": "Motiur Rahman Munna",
+                    "email": "munna.cse.ju@gmail.com",
+                    "verificationPin": "72893",
+                    "isVerified": true,
+                    "saveFirstPassword": "$2a$10$pVEc9BY6NAHnKk0HLukfOuOai5.DuPRTWShDyG3ajpLAAm9ZKzZG.",
+                    "userRole": "ADMIN"
+                },
+                "babyName": "Hello baby",
+                "babyAge": 2,
+                "motherName": "Firoza Begum",
+                "fatherName": "Hello",
+                "contactNumber": "123546",
+                "address": "Hpme",
+                "fevoriteFood": "Dood",
+                "isSicked": false
+            }
+        ],
+        "status": "OK"
+    }
+
+* Delete a baby 
+  URL (POST): APP_URL/api/deleteBaby{babyId}
+
+    * sample response:
+    {
+        "message": "Successfully baby deleted",
+        "status": "OK"
+    }
+
+  
