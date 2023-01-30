@@ -84,7 +84,7 @@ public class AuthController {
         userService.save(user);
         response.put("status", CaregiverConstant.STATUS.OK);
         response.put("message", "Successfully registered!");
-        emailService.sendSimpleMessage(user.getEmail(), "Daycare account verification code", "Hello, Your Daycare account varification code is "+verificationPin);
+        // emailService.sendSimpleMessage(user.getEmail(), "Daycare account verification code", "Hello, Your Daycare account varification code is "+verificationPin);
         System.out.println("Mail send "+user.getEmail());
         return response;
     }

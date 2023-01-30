@@ -15,6 +15,7 @@ import com.example.daycareapp.network.response.AllReviewResponse;
 import com.example.daycareapp.network.response.CreateOrderResponse;
 import com.example.daycareapp.network.response.DefaultResponse;
 import com.example.daycareapp.network.response.RegisterResponseModel;
+import com.example.daycareapp.network.response.SingleCaregiverResponse;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -47,6 +48,9 @@ public interface APIService {
 
     @POST("deleteCaregiver/{id}")
     Call<DefaultResponse> deleteCaregiver(@Path("id") Long id);
+
+    @GET("findCaregiver/{id}")
+    Call<SingleCaregiverResponse> findCaregiver(@Path("id") Long id);
 
     @POST("deleteBaby/{id}")
     Call<DefaultResponse> deleteBaby(@Path("id") Long id);

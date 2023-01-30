@@ -20,7 +20,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.daycareapp.R;
+import com.example.daycareapp.constants.CaregiverConstant;
+import com.example.daycareapp.models.Caregiver;
+import com.example.daycareapp.network.RetrofitAPIClient;
+import com.example.daycareapp.network.response.AllCaregiverResponse;
+import com.example.daycareapp.network.response.SingleCaregiverResponse;
 import com.example.daycareapp.util.EncodeDecodeUtil;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class FeeActivity extends AppCompatActivity {
     
@@ -45,11 +54,12 @@ public class FeeActivity extends AppCompatActivity {
         specialityTv = findViewById(R.id.speciality);
         addBabyButton = findViewById(R.id.addBabyBtId);
         seeReviewBt = findViewById(R.id.reviewBtId);
-
         String name = this.getIntent().getStringExtra("name");
         String location = this.getIntent().getStringExtra("location");
-        String imageText = this.getIntent().getStringExtra("img");
+//        String imageText = this.getIntent().getStringExtra("img");
         caregiverId = this.getIntent().getLongExtra("caregiver_id", -1);
+        findCaregiver();
+
         String speciality = this.getIntent().getStringExtra("speciality");
         String feedback = this.getIntent().getStringExtra("feedback");
 //        Boolean isAvailable = this.getIntent().getBooleanExtra("isAvailable", true);
@@ -62,14 +72,6 @@ public class FeeActivity extends AppCompatActivity {
         specialityTv.setText("Speciality: " + speciality);
         feedBacktv.setText("Admin Feedback: "+feedback);
 
-        Bitmap mbitmap= EncodeDecodeUtil.decodeBase64ToImage(imageText, this);
-        Bitmap imageRounded=Bitmap.createBitmap(mbitmap.getWidth(), mbitmap.getHeight(), mbitmap.getConfig());
-        Canvas canvas=new Canvas(imageRounded);
-        Paint mpaint=new Paint();
-        mpaint.setAntiAlias(true);
-        mpaint.setShader(new BitmapShader(mbitmap, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP));
-        canvas.drawRoundRect((new RectF(0, 0, mbitmap.getWidth(), mbitmap.getHeight())), 10, 10, mpaint); // Round Image Corner 100 100 100 100
-        imageView.setImageBitmap(imageRounded);
 
         addBabyButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -109,5 +111,47 @@ public class FeeActivity extends AppCompatActivity {
         finish();
         Intent intent = new Intent(getApplicationContext(), ProtectedActivity.class);
         startActivity(intent);
+    }
+
+    private void findCaregiver() {
+        findViewById(R.id.progressBarId).setVisibility(View.VISIBLE);
+        Call<SingleCaregiverResponse> call = RetrofitAPIClient
+                .getInstance()
+                .getAPI()
+                .findCaregiver(caregiverId);
+
+        call.enqueue(new Callback<SingleCaregiverResponse>() {
+            @Override
+            public void onResponse(Call<SingleCaregiverResponse> call, Response<SingleCaregiverResponse> response) {
+                findViewById(R.id.progressBarId).setVisibility(View.GONE);
+                if (response.isSuccessful() && response.code() == 200) {
+                    SingleCaregiverResponse singleCaregiverResponse = response.body();
+                    if(response.body().getStatus().toString().equals(CaregiverConstant.STATUS.OK.toString())){
+                        String imageBase64 = singleCaregiverResponse.getCaregiver().getImageBase64();
+                        Bitmap mbitmap= EncodeDecodeUtil.decodeBase64ToImage(imageBase64, getApplicationContext());
+                        Bitmap imageRounded=Bitmap.createBitmap(mbitmap.getWidth(), mbitmap.getHeight(), mbitmap.getConfig());
+                        Canvas canvas=new Canvas(imageRounded);
+                        Paint mpaint=new Paint();
+                        mpaint.setAntiAlias(true);
+                        mpaint.setShader(new BitmapShader(mbitmap, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP));
+                        canvas.drawRoundRect((new RectF(0, 0, mbitmap.getWidth(), mbitmap.getHeight())), 10, 10, mpaint); // Round Image Corner 100 100 100 100
+                        imageView.setImageBitmap(imageRounded);
+                    }else{
+                        String message = response.body().getMessage();
+                        Toast.makeText(FeeActivity.this, message, Toast.LENGTH_SHORT).show();
+                    }
+
+                } else {
+//                    progressBar.setVisibility(View.GONE);
+                    Toast.makeText(getApplicationContext(), "Some unknown problem occurred!! "+response.code(), Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<SingleCaregiverResponse> call, Throwable t) {
+                findViewById(R.id.progressBarId).setVisibility(View.GONE);
+                Toast.makeText(getApplicationContext(), t.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
     }
 }

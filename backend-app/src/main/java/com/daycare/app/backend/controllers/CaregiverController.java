@@ -25,6 +25,8 @@ public class CaregiverController {
     public static final String ADD_CAREGIVER = "/addCaregiver";
     public static final String FIND_ALL_CAREGIVER = "/findAllCaregiver";
     public static final String DELETE_CAREGIVER = "/deleteCaregiver/{id}";
+    public static final String FIND_CAREGIVER = "/findCaregiver/{id}";
+
 
     @Autowired
     private UserService userService;
@@ -82,6 +84,30 @@ public class CaregiverController {
         caregiverService.deleteById(id);
         response.put("status", CaregiverConstant.STATUS.OK);
         response.put("message", "caregiver deleted!");
+        return response;
+    }
+
+    @RequestMapping(value = FIND_CAREGIVER, method = RequestMethod.GET)
+    @ResponseBody
+    public HashMap<String, Object> findCaregiver(@PathVariable Long id) {
+        HashMap<String, Object> response = new HashMap<>();
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        Optional<User> userOptional = userService.findByEmail(email);
+        User user = userOptional.get();
+        // if(!user.getUserRole().equalsIgnoreCase(UserRole.ADMIN.toString())){
+        //     response.put("status", CaregiverConstant.STATUS.NOT_OK);
+        //     response.put("message", "You can't change caregiver");
+        //     return response;
+        // }    
+        Optional<Caregiver> caregiverOptional = caregiverService.findById(id);
+        if(caregiverOptional.isEmpty()){
+            response.put("status", CaregiverConstant.STATUS.NOT_OK);
+            response.put("message", "Invalid caregiver id");
+            return response;
+        }
+        response.put("status", CaregiverConstant.STATUS.OK);
+        response.put("message", "caregiver found");
+        response.put("caregiver", caregiverOptional.get());
         return response;
     }
 }

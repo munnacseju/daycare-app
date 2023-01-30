@@ -125,8 +125,9 @@ public class HomeFragment extends Fragment {
                 intent.putExtra("speciality", caregiver.getSpeciality());
                 intent.putExtra("feedback", caregiver.getAdminFeedBack());
                 intent.putExtra("isAvailable", caregiver.getAvailable());
-                String imageBase64 = caregiver.getImageBase64().toString();
-                intent.putExtra("img", imageBase64);
+//                String imageBase64 = caregiver.getImageBase64().toString();
+//                if(imageBase64.get)
+//                intent.putExtra("img", imageBase64);
                 getActivity().finish();
 
 //                Toast.makeText(getContext(), imageBase64, Toast.LENGTH_SHORT).show();
